@@ -32,7 +32,7 @@ namespace Darkorbit
             try
             {
                 Running = true;
-                AppDomain currentDomain = default(AppDomain);
+                AppDomain? currentDomain = default(AppDomain);
                 currentDomain = AppDomain.CurrentDomain;
                 // Handler for unhandled exceptions.
                 currentDomain.UnhandledException += GlobalUnhandledExceptionHandler;
@@ -52,25 +52,13 @@ namespace Darkorbit
                 Logger.Log("error_log", $"- [Program.cs] Main void exception: {e}");
             }
         }
-        //45df,asfopjrewt0eqri9tojfengdfg
-        // private static string checkLicense()
-        // {
-        //    var client = new System.Net.WebClient();
-        //  var license = "5715e6e8-0650-4015-82b6-711bf2a3127b";
-        //  client.Headers.Add("User-Agent", "DarkOrbit");
-
-        //  string url = "http://127.0.0.1/license.php?l="+license;
-        // string content = client.DownloadString(url);
-
-        //  return content;
-        // }
-
+       
         private static void KeepAlive()
         {
 
             while (true)
             {
-                Thread.Sleep(34000);
+                Task.Delay(34000).Wait();
                 if (cronjobTime.AddHours(5).AddMinutes(10) < DateTime.Now)
                 {
 
@@ -103,7 +91,7 @@ namespace Darkorbit
                     if (tries < 6)
                     {
                         Out.WriteLine("Reconectando mysql .. " + tries + " segundos.");
-                        Thread.Sleep(tries * 1000);
+                        Task.Delay(tries * 1000).Wait();
                         tries++;
                         goto TRY;
                     }
@@ -147,16 +135,17 @@ namespace Darkorbit
             try
             {
                 Net.netty.Handler.AddCommands();
-                Task.Factory.StartNew(GameServer.StartListening);
+                Task.Run(GameServer.StartListening);
                 Out.WriteLine("Listening on port " + GameServer.Port + ".", "Gaming Server", ConsoleColor.Magenta);
-                Task.Factory.StartNew(ChatServer.StartListening);
+                Task.Run(ChatServer.StartListening);
                 Out.WriteLine("Listening on port " + ChatServer.Port + ".", "Chat Server", ConsoleColor.Magenta);
-                Task.Factory.StartNew(SocketServer.StartListening);
+                Task.Run(SocketServer.StartListening);
                 Out.WriteLine("Listening on port " + SocketServer.Port + ".", "Socket Server", ConsoleColor.Magenta);
 
                 Task task = Task.Run(TickManager.StartTicker);
 
-                Task autorestart = Task.Factory.StartNew(() => Autorestart());
+                Task autorestart = Task.Run(Autorestart);
+                
 
                 Out.WriteLine("Initialized", "Autorestart", ConsoleColor.Magenta);
 
@@ -202,7 +191,7 @@ namespace Darkorbit
                         RestartOngoing = true;
                     }
 
-                    Thread.Sleep(1000);
+                    Task.Delay(1000).Wait();
                 }
             }
             catch (Exception ex)

@@ -74,9 +74,10 @@ namespace Darkorbit.Game.Ticks
         private async Task TickMain()
         {
            
-                while (Program.Running)
+            while (Program.Running)
+            {
+                try
                 {
-                    try
 
                     List<Tick>? actuallTicks = null;
                     lock (Ticks)
@@ -88,40 +89,48 @@ namespace Darkorbit.Game.Ticks
                         if (tick != null)
                             tick.Tick();
                     }
-                    await Task.Delay(30);
+                    await Task.Delay(40);
+                }catch(Exception ex)
+                {
+                    Console.WriteLine(ex);
                 }
+            }
            
         }
         private async Task TickPlayers()
         {
-            try
-            {
+            
                 while (Program.Running)
                 {
-                    List<Tick>? actuallTicks = null;
-                    lock (TicksPlayer)
+                    try
                     {
-                        actuallTicks = TicksPlayer.ToList();
-                    }
-                    foreach (var tick in actuallTicks)
+                        List<Tick>? actuallTicks = null;
+                        lock (TicksPlayer)
+                        {
+                            actuallTicks = TicksPlayer.ToList();
+                        }
+                        foreach (var tick in actuallTicks)
+                        {
+                            if (tick != null)
+                                tick.Tick();
+                        }
+                        await Task.Delay(40);
+                    }catch(Exception ex)
                     {
-                        if (tick != null)
-                            tick.Tick();
+                        Console.WriteLine(ex);
                     }
-                    await Task.Delay(30);
                 }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex);
-            }
+            
         }
         private async Task TickNpcs()
         {
-            try
-            {
+            
                 while (Program.Running)
                 {
+                try
+                {
+
+
                     List<Tick>? actuallTicks = null;
                     lock (TicksNPC)
                     {
@@ -132,20 +141,21 @@ namespace Darkorbit.Game.Ticks
                         if (tick != null)
                             tick.Tick();
                     }
-                    await Task.Delay(30);
+                    await Task.Delay(40);
+                }catch(Exception ex)
+                {
+                    Console.WriteLine(ex);
                 }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex);
-            }
+                }
+           
         }
 
         private async Task TickMap()
         {
-            try
+
+            while (Program.Running)
             {
-                while (Program.Running)
+                try
                 {
                     List<Tick>? actuallTicks = null;
                     lock (TicksMap)
@@ -157,13 +167,13 @@ namespace Darkorbit.Game.Ticks
                         if (tick != null)
                             tick.Tick();
                     }
-                    await Task.Delay(30);
+                    await Task.Delay(40);
+                }catch(Exception ex)
+                {
+                    Console.WriteLine(ex);
                 }
             }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex);
-            }
+           
         }
         public void RemoveTick(Tick tick)
         {
@@ -218,13 +228,13 @@ namespace Darkorbit.Game.Ticks
         
         public Task StartTicker()
         {
-            Task.Run(async () =>await TickMain());
+            Task.Run(async () => await TickMain());
             Task.Run(async () => await TickPlayers());
             Task.Run(async () => await TickNpcs());
             Task.Run(async () => await TickMap());
-            
+            Console.WriteLine("Ticker started!");
+            Console.WriteLine("Actual tick is set to 40ms");
             return Task.CompletedTask;
-
         }
     }
 }
