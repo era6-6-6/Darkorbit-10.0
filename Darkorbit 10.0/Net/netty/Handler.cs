@@ -9,7 +9,7 @@ using Darkorbit.Net.netty.requests.GroupRequests;
 
 namespace Darkorbit.Net.netty
 {
-    class Handler
+    internal class Handler
     {
         private static Dictionary<short, IHandler> Commands = new Dictionary<short, IHandler>();
 
@@ -19,7 +19,7 @@ namespace Darkorbit.Net.netty
             Commands.Add(MoveRequest.ID, new MoveRequestHandler());
             Commands.Add(ShipSelectRequest.ID, new ShipSelectRequestHandler());
             Commands.Add(SelectMenuBarItemRequest.ID, new SelectMenuBarItemHandler());
-         //   Commands.Add(ReadyRequest.ID, new ReadyRequestHandler());
+            Commands.Add(ReadyRequest.ID, new ReadyRequestHandler());
             Commands.Add(UIOpenRequest.ID, new UIOpenRequestHandler());
             Commands.Add(SlotBarConfigSetRequest.ID, new SlotBarConfigSetRequestHandler());
             Commands.Add(AudioSettingsRequest.ID, new AudioSettingsRequestHandler());

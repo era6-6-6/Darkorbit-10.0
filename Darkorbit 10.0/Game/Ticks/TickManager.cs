@@ -73,10 +73,11 @@ namespace Darkorbit.Game.Ticks
         }
         private async Task TickMain()
         {
-            try
-            {
+           
                 while (Program.Running)
                 {
+                    try
+
                     List<Tick>? actuallTicks = null;
                     lock (Ticks)
                     {
@@ -89,11 +90,7 @@ namespace Darkorbit.Game.Ticks
                     }
                     await Task.Delay(30);
                 }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex);
-            }
+           
         }
         private async Task TickPlayers()
         {

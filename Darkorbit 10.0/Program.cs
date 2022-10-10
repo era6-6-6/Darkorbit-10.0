@@ -146,6 +146,7 @@ namespace Darkorbit
         {
             try
             {
+                Net.netty.Handler.AddCommands();
                 Task.Factory.StartNew(GameServer.StartListening);
                 Out.WriteLine("Listening on port " + GameServer.Port + ".", "Gaming Server", ConsoleColor.Magenta);
                 Task.Factory.StartNew(ChatServer.StartListening);
