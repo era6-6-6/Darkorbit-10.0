@@ -30,14 +30,7 @@ namespace Darkorbit.Game.Ticks
                     TicksPlayer.Add(tick);
             }
         }
-        public void AddTickNPC(Tick tick)
-        {
-            lock (TicksNPC)
-            {
-                if (!TicksNPC.Contains(tick))
-                    TicksNPC.Add(tick);
-            }
-        }
+     
         public void AddTickMap(Tick tick)
         {
             lock (TicksMap)
@@ -78,7 +71,6 @@ namespace Darkorbit.Game.Ticks
             {
                 try
                 {
-
                     List<Tick>? actuallTicks = null;
                     lock (Ticks)
                     {

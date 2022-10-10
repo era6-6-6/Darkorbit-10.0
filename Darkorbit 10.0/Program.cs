@@ -44,6 +44,7 @@ namespace Darkorbit
                 cronjobTime = DateTime.Now;
                 timeOnline = DateTime.Now;
                 KeepAlive();
+                Console.ReadKey();
 
             }
             catch (Exception e)
@@ -53,12 +54,12 @@ namespace Darkorbit
             }
         }
        
-        private static async void KeepAlive()
+        private static  void KeepAlive()
         {
 
             while (true)
             {
-                await Task.Delay(34000);
+                Thread.Sleep(34000);
                 if (cronjobTime.AddHours(5).AddMinutes(10) < DateTime.Now)
                 {
                     cronjobTime = DateTime.Now;
@@ -191,6 +192,7 @@ namespace Darkorbit
                     }
 
                     await Task.Delay(14000);
+                    Console.WriteLine();
                 }
             }
             catch (Exception ex)
