@@ -142,10 +142,15 @@ namespace Darkorbit
                 Task.Run(SocketServer.StartListening);
                 Out.WriteLine("Listening on port " + SocketServer.Port + ".", "Socket Server", ConsoleColor.Magenta);
 
-                Task task = Task.Run(TickManager.StartTicker);
+                var thread = new Thread(new ThreadStart(TickManager.StartTicker));
+                thread.IsBackground = true;
+                thread.Start();
 
-                Task autorestart = Task.Run(async () => await Autorestart());
+                Thread restart = new Thread(new ThreadStart(Autorestart));
+                restart.IsBackground = true;
+                restart.Start();
                 
+
 
                 Out.WriteLine("Initialized", "Autorestart", ConsoleColor.Magenta);
 
@@ -159,7 +164,7 @@ namespace Darkorbit
             }
         }
 
-        public static async Task Autorestart()
+        public static void Autorestart()
         {
             try
             {
@@ -191,7 +196,7 @@ namespace Darkorbit
                         RestartOngoing = true;
                     }
 
-                    await Task.Delay(14000);
+                    Thread.Sleep(14000);
                     Console.WriteLine();
                 }
             }

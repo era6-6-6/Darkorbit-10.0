@@ -224,8 +224,8 @@ namespace Darkorbit.Game.Ticks
         {
             Task.Run(async () => await TickNpcs());
         }
-
-        public Task StartTicker()
+        
+        public void StartTicker()
         {
             
             Tasks.Add(Task.Run(async () => await TickMain()));
@@ -235,7 +235,7 @@ namespace Darkorbit.Game.Ticks
             Console.WriteLine("Ticker started!");
             Console.WriteLine("Actual tick is set to 40ms");
             
-            return Task.CompletedTask;
+            
         }
     }
 }
