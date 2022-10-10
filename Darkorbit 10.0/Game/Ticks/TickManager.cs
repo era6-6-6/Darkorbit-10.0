@@ -30,6 +30,15 @@ namespace Darkorbit.Game.Ticks
                     TicksPlayer.Add(tick);
             }
         }
+        public void AddNpcTick(Tick tick)
+        {
+            lock (TicksNPC)
+            {
+                if (!TicksNPC.Contains(tick))
+                    TicksNPC.Add(tick);
+            }
+        }
+    
      
         public void AddTickMap(Tick tick)
         {
@@ -69,8 +78,7 @@ namespace Darkorbit.Game.Ticks
            
             while (Program.Running)
             {
-                try
-                {
+               
                     List<Tick>? actuallTicks = null;
                     lock (Ticks)
                     {
@@ -82,10 +90,7 @@ namespace Darkorbit.Game.Ticks
                             tick.Tick();
                     }
                     await Task.Delay(40);
-                }catch(Exception ex)
-                {
-                    Console.WriteLine(ex);
-                }
+               
             }
            
         }
@@ -94,8 +99,7 @@ namespace Darkorbit.Game.Ticks
             
                 while (Program.Running)
                 {
-                    try
-                    {
+                   
                         List<Tick>? actuallTicks = null;
                         lock (TicksPlayer)
                         {
@@ -107,20 +111,17 @@ namespace Darkorbit.Game.Ticks
                                 tick.Tick();
                         }
                         await Task.Delay(40);
-                    }catch(Exception ex)
-                    {
-                        Console.WriteLine(ex);
-                    }
+                   
                 }
             
         }
         private async Task TickNpcs()
         {
-            
+            try
+            {
                 while (Program.Running)
                 {
-                try
-                {
+
 
 
                     List<Tick>? actuallTicks = null;
@@ -134,12 +135,15 @@ namespace Darkorbit.Game.Ticks
                             tick.Tick();
                     }
                     await Task.Delay(40);
-                }catch(Exception ex)
-                {
-                    Console.WriteLine(ex);
                 }
-                }
-           
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                RestartNpcTick();
+            }
+
+
         }
 
         private async Task TickMap()
@@ -147,8 +151,7 @@ namespace Darkorbit.Game.Ticks
 
             while (Program.Running)
             {
-                try
-                {
+               
                     List<Tick>? actuallTicks = null;
                     lock (TicksMap)
                     {
@@ -160,10 +163,7 @@ namespace Darkorbit.Game.Ticks
                             tick.Tick();
                     }
                     await Task.Delay(40);
-                }catch(Exception ex)
-                {
-                    Console.WriteLine(ex);
-                }
+              
             }
            
         }
@@ -215,17 +215,23 @@ namespace Darkorbit.Game.Ticks
             return false;
         }
 
-    
-    
-        
+
+        List<Task> Tasks = new();
+        private void RestartNpcTick()
+        {
+            Task.Run(async () => await TickNpcs());
+        }
+
         public Task StartTicker()
         {
-            Task.Run(async () => await TickMain());
-            Task.Run(async () => await TickPlayers());
-            Task.Run(async () => await TickNpcs());
-            Task.Run(async () => await TickMap());
+            
+            Tasks.Add(Task.Run(async () => await TickMain()));
+            Tasks.Add(Task.Run(async () => await TickPlayers()));
+            Tasks.Add(Task.Run(async () => await TickNpcs()));
+            Tasks.Add(Task.Run(async () => await TickMap()));
             Console.WriteLine("Ticker started!");
             Console.WriteLine("Actual tick is set to 40ms");
+            
             return Task.CompletedTask;
         }
     }

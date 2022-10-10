@@ -54,7 +54,7 @@ namespace Darkorbit.Game.Objects
 
             NpcAI = new NpcAI(this);
 
-            Program.TickManager.AddTick(this);
+            Program.TickManager.AddNpcTick(this);
         }
        
         
