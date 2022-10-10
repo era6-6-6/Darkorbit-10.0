@@ -53,15 +53,14 @@ namespace Darkorbit
             }
         }
        
-        private static void KeepAlive()
+        private static async void KeepAlive()
         {
 
             while (true)
             {
-                Task.Delay(34000).Wait();
+                await Task.Delay(34000);
                 if (cronjobTime.AddHours(5).AddMinutes(10) < DateTime.Now)
                 {
-
                     cronjobTime = DateTime.Now;
                 }
             }
@@ -91,7 +90,7 @@ namespace Darkorbit
                     if (tries < 6)
                     {
                         Out.WriteLine("Reconectando mysql .. " + tries + " segundos.");
-                        Task.Delay(tries * 1000).Wait();
+                        Thread.Sleep(1000);
                         tries++;
                         goto TRY;
                     }
@@ -129,7 +128,7 @@ namespace Darkorbit
 
         }
 
-        //TODO: rewrite TAsks to threads
+        
         public static void StartListening()
         {
             try
@@ -144,7 +143,7 @@ namespace Darkorbit
 
                 Task task = Task.Run(TickManager.StartTicker);
 
-                Task autorestart = Task.Run(Autorestart);
+                Task autorestart = Task.Run(async () => await Autorestart());
                 
 
                 Out.WriteLine("Initialized", "Autorestart", ConsoleColor.Magenta);
@@ -159,7 +158,7 @@ namespace Darkorbit
             }
         }
 
-        public static void Autorestart()
+        public static async Task Autorestart()
         {
             try
             {
@@ -191,7 +190,7 @@ namespace Darkorbit
                         RestartOngoing = true;
                     }
 
-                    Task.Delay(1000).Wait();
+                    await Task.Delay(14000);
                 }
             }
             catch (Exception ex)
