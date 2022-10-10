@@ -75,10 +75,10 @@ namespace Darkorbit.Game.Ticks
         }
         private async Task TickMain()
         {
-           
-            while (Program.Running)
+            try
             {
-               
+                while (Program.Running)
+                {
                     List<Tick>? actuallTicks = null;
                     lock (Ticks)
                     {
@@ -89,31 +89,37 @@ namespace Darkorbit.Game.Ticks
                         if (tick != null)
                             tick.Tick();
                     }
-                    await Task.Delay(40);
-               
+                    await Task.Delay(30);
+                }
             }
-           
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+            }
         }
         private async Task TickPlayers()
         {
-            
+            try
+            {
                 while (Program.Running)
                 {
-                   
-                        List<Tick>? actuallTicks = null;
-                        lock (TicksPlayer)
-                        {
-                            actuallTicks = TicksPlayer.ToList();
-                        }
-                        foreach (var tick in actuallTicks)
-                        {
-                            if (tick != null)
-                                tick.Tick();
-                        }
-                        await Task.Delay(40);
-                   
+                    List<Tick>? actuallTicks = null;
+                    lock (TicksPlayer)
+                    {
+                        actuallTicks = TicksPlayer.ToList();
+                    }
+                    foreach (var tick in actuallTicks)
+                    {
+                        if (tick != null)
+                            tick.Tick();
+                    }
+                    await Task.Delay(30);
                 }
-            
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+            }
         }
         private async Task TickNpcs()
         {
@@ -121,9 +127,6 @@ namespace Darkorbit.Game.Ticks
             {
                 while (Program.Running)
                 {
-
-
-
                     List<Tick>? actuallTicks = null;
                     lock (TicksNPC)
                     {
@@ -134,24 +137,20 @@ namespace Darkorbit.Game.Ticks
                         if (tick != null)
                             tick.Tick();
                     }
-                    await Task.Delay(40);
+                    await Task.Delay(30);
                 }
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex);
-                RestartNpcTick();
             }
-
-
         }
-
         private async Task TickMap()
         {
-
-            while (Program.Running)
+            try
             {
-               
+                while (Program.Running)
+                {
                     List<Tick>? actuallTicks = null;
                     lock (TicksMap)
                     {
@@ -162,11 +161,15 @@ namespace Darkorbit.Game.Ticks
                         if (tick != null)
                             tick.Tick();
                     }
-                    await Task.Delay(40);
-              
+                    await Task.Delay(30);
+                }
             }
-           
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+            }
         }
+    
         public void RemoveTick(Tick tick)
         {
             lock (Ticks)
