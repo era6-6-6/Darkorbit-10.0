@@ -108,7 +108,7 @@ namespace Darkorbit.Game
         {
             try
             {
-                if
+                
                 Player.TDMEnd = true;
                 Player.LastCombatTime = DateTime.Now.AddSeconds(-999);
                 Player.Group?.Leave(Player);
