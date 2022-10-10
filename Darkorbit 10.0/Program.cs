@@ -44,7 +44,7 @@ namespace Darkorbit
                 cronjobTime = DateTime.Now;
                 timeOnline = DateTime.Now;
                 KeepAlive();
-                Console.ReadKey();
+                
 
             }
             catch (Exception e)
