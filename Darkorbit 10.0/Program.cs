@@ -1,4 +1,7 @@
-﻿using Darkorbit.Game.Ticks;
+﻿using Darkorbit.Chat;
+using Darkorbit.Game.Ticks;
+using Darkorbit.Helper.packets;
+using Darkorbit.Net;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
@@ -11,7 +14,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using static System.Net.Mime.MediaTypeNames;
 
-namespace Ow
+namespace Darkorbit
 {
     class Program
     {
@@ -126,7 +129,7 @@ namespace Ow
             {
                 //Console.WriteLine("License checked sucesfully.");
                 JsonConvert.DefaultSettings = () => new JsonSerializerSettings { ObjectCreationHandling = ObjectCreationHandling.Replace };
-                Handler.AddCommands();
+               
                 Room.AddRooms();
                 EventManager.InitiateEvents();
                 StartListening();

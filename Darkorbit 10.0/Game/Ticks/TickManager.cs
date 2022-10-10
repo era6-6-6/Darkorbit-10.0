@@ -168,6 +168,56 @@ namespace Darkorbit.Game.Ticks
                 Console.WriteLine(ex);
             }
         }
+        public void RemoveTick(Tick tick)
+        {
+            lock (Ticks)
+            {
+                if (Ticks.Contains(tick))
+                    Ticks.Remove(tick);
+            }
+            lock (TicksPlayer)
+            {
+                if (TicksPlayer.Contains(tick))
+                    TicksPlayer.Remove(tick);
+            }
+            lock (TicksNPC)
+            {
+                if (TicksNPC.Contains(tick))
+                    TicksNPC.Remove(tick);
+            }
+            lock (TicksMap)
+            {
+                if (TicksMap.Contains(tick))
+                    TicksMap.Remove(tick);
+            }
+        }
+        public bool Exists(Tick tick)
+        {
+            lock (Ticks)
+            {
+                if (Ticks.Contains(tick))
+                    return true;
+            }
+            lock (TicksPlayer)
+            {
+                if (TicksPlayer.Contains(tick))
+                    return true;
+            }
+            lock (TicksNPC)
+            {
+                if (TicksNPC.Contains(tick))
+                    return true;
+            }
+            lock (TicksMap)
+            {
+                if (TicksMap.Contains(tick))
+                    return true;
+            }
+            return false;
+        }
+
+    
+    
         
         public Task StartTicker()
         {
