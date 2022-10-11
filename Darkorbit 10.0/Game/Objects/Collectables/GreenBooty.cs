@@ -24,14 +24,14 @@ namespace Darkorbit.Game.Objects.Collectables
 
             int ranDesign = Randoms.random.Next(1, 5);
 
-            var uridium = Randoms.random.Next(100, 200);
+            var uridium = Randoms.random.Next(100, 1000);
             var credits = Randoms.random.Next(40000, 150000);
             int ran = Randoms.random.Next(1, 100);
             player.LoadData();
             if (ran <= 1 && ran >= 0) //jackpot
             {
-                player.AmmunitionManager.AddAmmo(Players.Managers.AmmunitionManager.UCB_100, Randoms.random.Next(200, 5000));
-                player.AmmunitionManager.AddAmmo(Players.Managers.AmmunitionManager.RSB_75, Randoms.random.Next(200, 5000));
+                player.AmmunitionManager.AddAmmo(Players.Managers.AmmunitionManager.UCB_100, Randoms.random.Next(1000, 5000));
+                player.AmmunitionManager.AddAmmo(Players.Managers.AmmunitionManager.RSB_75, Randoms.random.Next(200, 2000));
                 player.ChangeData(DataType.URIDIUM, uridium);
             }
             else if (ran <= 11 && ran > 1)// ucb100
@@ -66,7 +66,7 @@ namespace Darkorbit.Game.Objects.Collectables
             }
             else if (ran <= 79 && ran > 70)
             {
-                player.AmmunitionManager.AddAmmo(Players.Managers.AmmunitionManager.UCB_100, Randoms.random.Next(200, 500));
+                player.AmmunitionManager.AddAmmo(Players.Managers.AmmunitionManager.UCB_100, Randoms.random.Next(200, 2000));
                 player.AmmunitionManager.AddAmmo(Players.Managers.AmmunitionManager.RSB_75, Randoms.random.Next(100, 250));
                 player.ChangeData(DataType.URIDIUM, uridium);
             }

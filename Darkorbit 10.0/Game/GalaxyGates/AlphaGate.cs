@@ -197,11 +197,11 @@ namespace Darkorbit.Game.GalaxyGates
                 else // Gate Done
                 {
                     // Reward
-                    int uridium = 15000;
+                    int uridium = 20000;
                     int experience = 4000000;
-                    int honor = 80000;
+                    int honor = 100000;
                     //int ec = 5;
-                    int logfiles = 50;
+                    int logfiles = 5;
                     currentPlayer.LoadData();
                     currentPlayer.ChangeData(DataType.EXPERIENCE, experience);
                     currentPlayer.ChangeData(DataType.HONOR, honor);
@@ -209,8 +209,8 @@ namespace Darkorbit.Game.GalaxyGates
                     currentPlayer.SendPacket($"0|LM|ST|LOG|{logfiles}");
                     currentPlayer.AddLogfiles(logfiles);
                     //currentPlayer.ChangeData(DataType.EC, ec);
-                    currentPlayer.AmmunitionManager.AddAmmo(Objects.Players.Managers.AmmunitionManager.UCB_100, Randoms.random.Next(20000, 20000));
-                    currentPlayer.AmmunitionManager.AddAmmo(Objects.Players.Managers.AmmunitionManager.RSB_75, Randoms.random.Next(2000, 3000));
+                    currentPlayer.AmmunitionManager.AddAmmo(Objects.Players.Managers.AmmunitionManager.UCB_100, 20000);
+                    currentPlayer.AmmunitionManager.AddAmmo(Objects.Players.Managers.AmmunitionManager.RSB_75, Randoms.random.Next(1000));
 
                     // update database
                     using (SqlDatabaseClient mySqlClient = SqlDatabaseManager.GetClient())

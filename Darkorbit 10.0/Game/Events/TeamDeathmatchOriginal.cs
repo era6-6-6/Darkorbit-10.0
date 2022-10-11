@@ -309,14 +309,6 @@ namespace Darkorbit.Game.Events
 
             ActiveUBA = true;
 
-
-
-
-
-
-
-
-
             EventManager.TeamDeathmatch.listGroup.Remove(players1);
             EventManager.TeamDeathmatch.listGroup.Remove(players2);
         }
