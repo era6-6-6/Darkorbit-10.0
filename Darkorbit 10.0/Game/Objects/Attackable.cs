@@ -700,7 +700,7 @@ namespace Darkorbit.Game.Objects
                             destroyerPlayer.bootyKeys.greenKeys++;
                             destroyerPlayer.SendPacket($"0|A|BK|{destroyerPlayer.bootyKeys.greenKeys}");
                             destroyerPlayer.AmmunitionManager.AddAmmo(AmmunitionManager.RSB_75, Randoms.random.Next(200, 600));
-                            destroyerPlayer.AmmunitionManager.AddAmmo(AmmunitionManager.UCB_100, Randoms.random.Next(200, 700));
+                            destroyerPlayer.AmmunitionManager.AddAmmo(AmmunitionManager.UCB_100, Randoms.random.Next(600, 1500));
                             destroyerPlayer.AmmunitionManager.AddAmmo(AmmunitionManager.SAB_50, Randoms.random.Next(200, 1000));
                             destroyerPlayer.AmmunitionManager.AddAmmo(AmmunitionManager.EMP_01, Randoms.random.Next(0, 1));
                             destroyerPlayer.AmmunitionManager.AddAmmo(AmmunitionManager.ISH_01, Randoms.random.Next(0, 1));
