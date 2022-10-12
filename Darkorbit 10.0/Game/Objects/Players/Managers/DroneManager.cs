@@ -154,7 +154,7 @@ namespace Darkorbit.Game.Objects.Players.Managers
                 }
                 string DronePacket = "";
                 int i = 0;
-                foreach(var item in drones)
+                foreach(var item in drones.ToList())
                 {
                     
                         if(i == totalDrones - 1)
@@ -182,7 +182,7 @@ namespace Darkorbit.Game.Objects.Players.Managers
                 }
                 string DronePacket = "";
                 int i = 0;
-                foreach (var item in drones)
+                foreach (var item in drones.ToList())
                 {
 
                     if (i == totalDrones - 1)
