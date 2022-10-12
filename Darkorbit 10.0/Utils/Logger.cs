@@ -29,7 +29,7 @@ namespace Darkorbit.Utils
                         var file = File.Create(path + fileName);
                         file.Close();
                     }
-                    var str = new FileStream(path + fileName, FileMode.Append, FileAccess.ReadWrite, FileShare.ReadWrite);
+                    var str = new FileStream(path + fileName, FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.ReadWrite);
                     using (StreamWriter sw = new StreamWriter(str))
                     {
                         sw.WriteLine($"[{DateTime.Now.ToString("dd.MM.yyyy HH: mm:ss")}] " + message);

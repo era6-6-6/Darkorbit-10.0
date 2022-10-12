@@ -344,8 +344,8 @@ namespace Darkorbit.Game
                     for (int i = 1; i <= npc.Amount; i++)
                     {
                         //if (Id == 3 || Id == 11 || Id == 55 || Id == 58 || Id == 2 || Id == 10 || Id == 16)
-                        
-                            if (npc.ShipId == 80)
+                       
+                            if (npc.ShipId == 80 && Id != 42)
                             {
                                 //Logger.Log("error_log", $"- [CubiconDebug] Cubicon spawned");
                                 CubiThread tmp = Cubikon.SpawnCubicon(npc.ShipId, this, CubiCount);
@@ -519,7 +519,13 @@ namespace Darkorbit.Game
                 for (int i = 1; i <= 100; i++)
                     new BonusBox(Position.Random(this, 0, 41500, 0, 25500), this, true);
             }*/
-            
+            if(Id == 42)
+            {
+                for (int i = 0; i < 60; i++)
+                {
+                    new BonusBox(Position.Random(this, 0, 20800, 0, 12800), this, true);
+                }
+            }
             if (Id == 101)
             {
                 var poi = new POI("jackpot_poi", POITypes.RADIATION, POIDesigns.SIMPLE, POIShapes.CIRCLE, new List<Position> { new Position(5000, 3200), new Position(2250, 950) }, true, true);
@@ -1278,7 +1284,7 @@ namespace Darkorbit.Game
             }
         }
 
-public bool CheckActivatables(Player Player)
+        public bool CheckActivatables(Player Player)
         {
             bool isInSecureZone = false;
             bool inEquipZone = false;
