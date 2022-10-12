@@ -26,45 +26,92 @@ namespace Darkorbit.Game.Objects.Collectables
 
             if (ran <= 22 && ran >= 0)
             {
-                player.AmmunitionManager.AddAmmo(Players.Managers.AmmunitionManager.LCB_10, Randoms.random.Next(100, 1000));
-                
+                if (player.Spacemap.Id == 13 || Spacemap.Id == 14 || Spacemap.Id == 15)
+                {
+                    player.AmmunitionManager.AddAmmo(Players.Managers.AmmunitionManager.LCB_10, (int)(Randoms.random.Next(20, 150) * 1.5));
+                }
+                else
+                    player.AmmunitionManager.AddAmmo(Players.Managers.AmmunitionManager.LCB_10, Randoms.random.Next(20, 150));
+
             }
             else if (ran <= 34 && ran > 22)
             {
-                player.AmmunitionManager.AddAmmo(Players.Managers.AmmunitionManager.MCB_25, Randoms.random.Next(50, 850));
+                if (player.Spacemap.Id == 13 || Spacemap.Id == 14 || Spacemap.Id == 15)
+                {
+                    player.AmmunitionManager.AddAmmo(Players.Managers.AmmunitionManager.MCB_25, (int)(Randoms.random.Next(20, 150) * 1.5));
+                }
+                else
+                    player.AmmunitionManager.AddAmmo(Players.Managers.AmmunitionManager.MCB_25, Randoms.random.Next(20, 150));
 
             }
             else if (ran <= 42 && ran > 34)
             {
-                player.AmmunitionManager.AddAmmo(Players.Managers.AmmunitionManager.MCB_50, Randoms.random.Next(30, 730));
+                if (player.Spacemap.Id == 13 || Spacemap.Id == 14 || Spacemap.Id == 15)
+                {
+                    player.AmmunitionManager.AddAmmo(Players.Managers.AmmunitionManager.MCB_50, (int)(Randoms.random.Next(20, 150) * 1.5));
+                }
+                else
+                    player.AmmunitionManager.AddAmmo(Players.Managers.AmmunitionManager.MCB_50, Randoms.random.Next(20, 150));
 
             }
             else if (ran <= 50 && ran > 42)
             {
-                player.AmmunitionManager.AddAmmo(Players.Managers.AmmunitionManager.SAB_50, Randoms.random.Next(40, 440));
+                if (player.Spacemap.Id == 13 || Spacemap.Id == 14 || Spacemap.Id == 15)
+                {
+                    player.AmmunitionManager.AddAmmo(Players.Managers.AmmunitionManager.SAB_50, (int)(Randoms.random.Next(20, 150) * 1.5));
+                }
+                else
+                    player.AmmunitionManager.AddAmmo(Players.Managers.AmmunitionManager.SAB_50, Randoms.random.Next(20, 150));
             }
             else if (ran <= 65 && ran > 50)
             {
-                player.AmmunitionManager.AddAmmo(Players.Managers.AmmunitionManager.PLT_2026, Randoms.random.Next(10, 420));
+
+                if (player.Spacemap.Id == 13 || Spacemap.Id == 14 || Spacemap.Id == 15)
+                {
+                    player.AmmunitionManager.AddAmmo(Players.Managers.AmmunitionManager.PLT_2026, (int)(Randoms.random.Next(2, 15) * 1.5));
+                }
+                else
+                    player.AmmunitionManager.AddAmmo(Players.Managers.AmmunitionManager.PLT_2026, Randoms.random.Next(2, 15));
+
             }
             else if (ran <= 67 && ran > 65)
             {
-                player.AmmunitionManager.AddAmmo(Players.Managers.AmmunitionManager.PLT_2021, Randoms.random.Next(2, 115));
-
+                if (player.Spacemap.Id == 13 || Spacemap.Id == 14 || Spacemap.Id == 15)
+                {
+                    player.AmmunitionManager.AddAmmo(Players.Managers.AmmunitionManager.PLT_2021, (int)(Randoms.random.Next(2, 15) * 1.5));
+                }
+                else
+                    player.AmmunitionManager.AddAmmo(Players.Managers.AmmunitionManager.PLT_2021, Randoms.random.Next(2, 15));
+                
             }
             else if (ran <= 77 && ran > 67)
             {
-                player.ChangeData(DataType.URIDIUM, uridium);
+                if (player.Spacemap.Id == 13 || Spacemap.Id == 14 || Spacemap.Id == 15)
+                {
+                    player.ChangeData(DataType.URIDIUM, (int)(uridium * 1.5));
+                }
+                else
+                    player.ChangeData(DataType.URIDIUM, uridium);
 
             }
             else if (ran <= 97 && ran > 77)
             {
-                player.ChangeData(DataType.URIDIUM, uridium);
+                if (player.Spacemap.Id == 13 || Spacemap.Id == 14 || Spacemap.Id == 15)
+                {
+                    player.ChangeData(DataType.URIDIUM, (int)(uridium * 1.5));
+                }
+                else
+                    player.ChangeData(DataType.URIDIUM, uridium);
 
             }
             else if (ran <= 100 && ran > 97)
             {
-                player.ChangeData(DataType.URIDIUM, uridium1);
+                if(player.Spacemap.Id == 13 ||Spacemap.Id == 14 || Spacemap.Id == 15)
+                {
+                    player.ChangeData(DataType.URIDIUM, (int)(uridium1 * 1.5));
+                }
+                else
+                    player.ChangeData(DataType.URIDIUM, uridium1);
 
             }
 

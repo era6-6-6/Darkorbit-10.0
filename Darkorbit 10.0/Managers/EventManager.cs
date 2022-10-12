@@ -19,7 +19,7 @@ namespace Darkorbit.Managers
         public static Spaceball Spaceball { get; set; }
         public static Invasion Invasion { get; set; }
         public static UltimateBattleArena UltimateBattleArena { get; set; }
-        public static TeamDeathmatch TeamDeathmatch { get; set; }
+       
         public static TeamDeathmatchNew TeamDeathmatchNew { get; set; }
         public static GroupEvent groupEvent { get; set; }
         public static BattleRoyal battleRoyal { get; set; }
@@ -53,7 +53,7 @@ namespace Darkorbit.Managers
             Spaceball = new Spaceball();
             Invasion = new Invasion();
             UltimateBattleArena = new UltimateBattleArena();
-            TeamDeathmatch = new TeamDeathmatch();
+            
             TeamDeathmatchNew = new TeamDeathmatchNew();
             groupEvent = new GroupEvent();
             battleRoyal = new BattleRoyal();

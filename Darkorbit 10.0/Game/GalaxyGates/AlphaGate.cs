@@ -21,10 +21,10 @@ namespace Darkorbit.Game.GalaxyGates
         private readonly Player currentPlayer;
         private readonly GameSession currentGameSession;
         private readonly bool active = false;
-        public Spacemap Spacemap { get; set; }
+        public Spacemap? Spacemap { get; set; }
 
-        private Portal alphaGateNextWavePortal;
-        private Portal alphaGateBackPortal;
+        private Portal? alphaGateNextWavePortal;
+        private Portal? alphaGateBackPortal;
 
         public AlphaGate(int map, GameSession gameSession, int gateWave, int gateLives)
         {
@@ -49,15 +49,13 @@ namespace Darkorbit.Game.GalaxyGates
             }
 
             Start();
-
-            // Remove player cloak
             currentPlayer.CpuManager.DisableCloak();
         }
 
         public async void Start()
         {
             // Wave countdown
-            for (int i = 20; i > 0; i--)
+            for (int i = 15; i > 0; i--)
             {
                 if (currentPlayer.Destroyed) break;
                 currentPlayer.SendPacket($"0|A|STD|-=- {i} -=-");
@@ -68,7 +66,7 @@ namespace Darkorbit.Game.GalaxyGates
             {
                 // Final message
                 currentPlayer.SendPacket($"0|A|STD|{{{lives}}} lives left");
-                //currentPlayer.SendPacket($"0|A|STD|To leave the gate typ /leave in the chat");
+                
                 // Create wave
                 CreateNewWave();
                 // Update database to wave
@@ -208,7 +206,6 @@ namespace Darkorbit.Game.GalaxyGates
                     currentPlayer.ChangeData(DataType.URIDIUM, uridium);
                     currentPlayer.SendPacket($"0|LM|ST|LOG|{logfiles}");
                     currentPlayer.AddLogfiles(logfiles);
-                    //currentPlayer.ChangeData(DataType.EC, ec);
                     currentPlayer.AmmunitionManager.AddAmmo(Objects.Players.Managers.AmmunitionManager.UCB_100, 20000);
                     currentPlayer.AmmunitionManager.AddAmmo(Objects.Players.Managers.AmmunitionManager.RSB_75, Randoms.random.Next(1000));
 

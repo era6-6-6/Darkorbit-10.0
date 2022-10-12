@@ -71,7 +71,10 @@ namespace Darkorbit.Game.Objects.AI
 
         public void TickAI()
         {
-            if (Npc.Id == 80) return;
+            Logic();
+        }
+        private void Logic()
+        {
             if (lastMovement.AddSeconds(1) < DateTime.Now)
             {
                 if (Npc.Spacemap.Id == 62 || Npc.Spacemap.Id == 63)
@@ -105,18 +108,20 @@ namespace Darkorbit.Game.Objects.AI
                         }
 
 
-                    } else
+                    }
+                    else
                     {
                         if (Npc.MainAttacker != null)
                         {
                             if (!Npc.Moving) Movement.Move(Npc, Position.GetPosOnCircle(Npc.MainAttacker.Position, ALIEN_DISTANCE_TO_USER));
-                        } else if(Npc.Selected != null)
+                        }
+                        else if (Npc.Selected != null)
                         {
                             if (!Npc.Moving) Movement.Move(Npc, Position.GetPosOnCircle(Npc.Selected.Position, ALIEN_DISTANCE_TO_USER));
                         }
                     }
                 }
-                
+
                 else
                 {
                     if (AIOption == NpcAIOption.FLY_TO_ENEMY && Npc.Selected != null && Npc.MainAttacker == null)
@@ -246,21 +251,21 @@ namespace Darkorbit.Game.Objects.AI
                         case NpcAIOption.PROTI_POSITION_MOVE:
                             if (lastMovement.AddSeconds(1) < DateTime.Now)
                                 if (Npc.mother.MainAttacker is Player)
-                            {
-                                if (Npc.mother.MainAttacker.Storage.IsInDemilitarizedZone || Npc.mother.MainAttacker.Invisible || Npc.Position.DistanceTo(Npc.mother.MainAttacker.Position) > Npc.RenderRange1)
                                 {
-                                    Npc.Attacking = true;
-                                    Npc.Selected = null;
-                                }
-                                else
-                                {
-                                    if (Npc.Ship.Aggressive || Npc.aggressive)
+                                    if (Npc.mother.MainAttacker.Storage.IsInDemilitarizedZone || Npc.mother.MainAttacker.Invisible || Npc.Position.DistanceTo(Npc.mother.MainAttacker.Position) > Npc.RenderRange1)
+                                    {
                                         Npc.Attacking = true;
+                                        Npc.Selected = null;
+                                    }
+                                    else
+                                    {
+                                        if (Npc.Ship.Aggressive || Npc.aggressive)
+                                            Npc.Attacking = true;
 
-                                    if (Npc.mother.cubiMainAttacker != null) Npc.Selected = Npc.mother.cubiMainAttacker;
-                                    else Npc.Selected = Npc.mother.MainAttacker;
+                                        if (Npc.mother.cubiMainAttacker != null) Npc.Selected = Npc.mother.cubiMainAttacker;
+                                        else Npc.Selected = Npc.mother.MainAttacker;
+                                    }
                                 }
-                            }
 
                             int x1P = Npc.mother.Position.X - 1000;
                             int x2P = Npc.mother.Position.X + 1000;

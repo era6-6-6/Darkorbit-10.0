@@ -1,4 +1,8 @@
-﻿using Newtonsoft.Json;
+﻿using Darkorbit.Game.Movements;
+using Darkorbit.Managers.MySQLManager;
+using Darkorbit.Net.netty.commands;
+using Darkorbit.Utils;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -14,68 +18,65 @@ namespace Darkorbit.Game.Objects.Collectables
 
         public override void Reward(Player player)
         {
-            var randomDesign = new Random();
-            var designlist_goliath = new List<String>
-            {
-                ""
-            };
+          
 
             /* DESIGN SECTION */
 
             int ranDesign = Randoms.random.Next(1, 5);
 
             var uridium = Randoms.random.Next(100, 1000);
-            var credits = Randoms.random.Next(40000, 150000);
             int ran = Randoms.random.Next(1, 100);
             player.LoadData();
             if (ran <= 1 && ran >= 0) //jackpot
             {
-                player.AmmunitionManager.AddAmmo(Players.Managers.AmmunitionManager.UCB_100, Randoms.random.Next(1000, 5000));
-                player.AmmunitionManager.AddAmmo(Players.Managers.AmmunitionManager.RSB_75, Randoms.random.Next(200, 2000));
-                player.ChangeData(DataType.URIDIUM, uridium);
+                player.AmmunitionManager.AddAmmo(Players.Managers.AmmunitionManager.UCB_100, Randoms.random.Next(300, 500));
+                player.AmmunitionManager.AddAmmo(Players.Managers.AmmunitionManager.RSB_75, Randoms.random.Next(200, 200));
+                
             }
             else if (ran <= 11 && ran > 1)// ucb100
             {
-                player.ChangeData(DataType.URIDIUM, uridium);
+                
                 player.AmmunitionManager.AddAmmo(Players.Managers.AmmunitionManager.RSB_75, Randoms.random.Next(200, 5000));
             }
             else if (ran <= 26 && ran > 11)// rsb75
             {
-                player.ChangeData(DataType.URIDIUM, uridium);
+                
                 player.AmmunitionManager.AddAmmo(Players.Managers.AmmunitionManager.MCB_50, Randoms.random.Next(1700, 6100));
             }
             else if (ran <= 41 && ran > 26)// ucb100
             {
-                player.ChangeData(DataType.URIDIUM, uridium);
-                player.AmmunitionManager.AddAmmo(Players.Managers.AmmunitionManager.UCB_100, Randoms.random.Next(100, 3000));
+
+                player.AmmunitionManager.AddAmmo(AmmunitionManager.ACM_01, Randoms.random.Next(1, 9));
+                player.AmmunitionManager.AddAmmo(Players.Managers.AmmunitionManager.UCB_100, Randoms.random.Next(100, 300));
             }
             else if (ran <= 51 && ran > 41)// rsb75
             {
-                player.ChangeData(DataType.URIDIUM, uridium);
-                player.AmmunitionManager.AddAmmo(Players.Managers.AmmunitionManager.RSB_75, Randoms.random.Next(250, 850));
+
+                player.AmmunitionManager.AddAmmo(AmmunitionManager.EMP_01, Randoms.random.Next(1, 3));
+                player.AmmunitionManager.AddAmmo(Players.Managers.AmmunitionManager.RSB_75, Randoms.random.Next(250, 350));
             }
             else if (ran <= 61 && ran > 51)// rsb75
             {
-                player.ChangeData(DataType.URIDIUM, uridium);
-                player.AmmunitionManager.AddAmmo(Players.Managers.AmmunitionManager.MCB_50, Randoms.random.Next(250, 2550));
+                
+                player.AmmunitionManager.AddAmmo(Players.Managers.AmmunitionManager.MCB_50, Randoms.random.Next(250, 1350));
             }
             else if (ran <= 70 && ran > 61)// rsb75
             {
-                player.ChangeData(DataType.URIDIUM, uridium);
+                
                 player.AmmunitionManager.AddAmmo(Players.Managers.AmmunitionManager.MCB_50, Randoms.random.Next(250, 550));
             }
             else if (ran <= 79 && ran > 70)
             {
-                player.AmmunitionManager.AddAmmo(Players.Managers.AmmunitionManager.UCB_100, Randoms.random.Next(200, 2000));
+                player.AmmunitionManager.AddAmmo(Players.Managers.AmmunitionManager.UCB_100, Randoms.random.Next(200, 500));
                 player.AmmunitionManager.AddAmmo(Players.Managers.AmmunitionManager.RSB_75, Randoms.random.Next(100, 250));
-                player.ChangeData(DataType.URIDIUM, uridium);
+                
             }
             else if (ran <= 96 && ran > 79)// rsb75
             {
-                player.ChangeData(DataType.URIDIUM, uridium);
+                player.AmmunitionManager.AddAmmo(Players.Managers.AmmunitionManager.MCB_25, Randoms.random.Next(250, 550));
                 player.AmmunitionManager.AddAmmo(Players.Managers.AmmunitionManager.MCB_50, Randoms.random.Next(250, 550));
             }
-            else if (ran <= 100 && ran > 96)
+            else if (ran <= 100 && ran > 98)
             {
                 using (var mySqlClient = SqlDatabaseManager.GetClient())
                     if (ranDesign == 1)
@@ -84,8 +85,8 @@ namespace Darkorbit.Game.Objects.Collectables
                         var result = mySqlClient.ExecuteQueryTable($"SELECT name FROM player_designs WHERE userId = {player.Id} AND name = 'ship_goliath_design_solace'");
                         if (result.Rows.Count >= 1)
                         {
-                            player.ChangeData(DataType.CREDITS, credits);
-                            player.ChangeData(DataType.URIDIUM, uridium);
+                            player.SendPacket($"0|A|STD|You got 20.000 uridium");
+                            player.ChangeData(DataType.URIDIUM, 20_000);
                         }
                         else
                         {
@@ -99,8 +100,9 @@ namespace Darkorbit.Game.Objects.Collectables
                         var result = mySqlClient.ExecuteQueryTable($"SELECT name FROM player_designs WHERE userId = {player.Id} AND name = 'ship_goliath_design_diminisher'");
                         if (result.Rows.Count >= 1)
                         {
-                            player.ChangeData(DataType.CREDITS, credits);
-                            player.ChangeData(DataType.URIDIUM, uridium);
+                            player.SendPacket($"0|A|STD|You got 20.000 uridium");
+
+                            player.ChangeData(DataType.URIDIUM, 20_000);
                         }
                         else
                         {
@@ -114,8 +116,9 @@ namespace Darkorbit.Game.Objects.Collectables
                         var result = mySqlClient.ExecuteQueryTable($"SELECT name FROM player_designs WHERE userId = {player.Id} AND name = 'ship_goliath_design_sentinel'");
                         if (result.Rows.Count >= 1)
                         {
-                            player.ChangeData(DataType.CREDITS, credits);
-                            player.ChangeData(DataType.URIDIUM, uridium);
+                            player.SendPacket($"0|A|STD|You got 20.000 uridium");
+
+                            player.ChangeData(DataType.URIDIUM, 20_000);
                         }
                         else
                         {
@@ -129,8 +132,9 @@ namespace Darkorbit.Game.Objects.Collectables
                         var result = mySqlClient.ExecuteQueryTable($"SELECT name FROM player_designs WHERE userId = {player.Id} AND name = 'ship_goliath_design_spectrum'");
                         if (result.Rows.Count >= 1)
                         {
-                            player.ChangeData(DataType.CREDITS, credits);
-                            player.ChangeData(DataType.URIDIUM, uridium);
+                            player.SendPacket($"0|A|STD|You got 20.000 uridium");
+
+                            player.ChangeData(DataType.URIDIUM, 20_000);
                         }
                         else
                         {
@@ -144,8 +148,8 @@ namespace Darkorbit.Game.Objects.Collectables
                         var result = mySqlClient.ExecuteQueryTable($"SELECT name FROM player_designs WHERE userId = {player.Id} AND name = 'ship_goliath_design_venom'");
                         if (result.Rows.Count >= 1)
                         {
-                            player.ChangeData(DataType.CREDITS, credits);
-                            player.ChangeData(DataType.URIDIUM, uridium);
+                            player.SendPacket($"0|A|STD|You got 20000 uridium");
+                            player.ChangeData(DataType.URIDIUM, 20_000);
                         }
                         else
                         {
@@ -154,10 +158,7 @@ namespace Darkorbit.Game.Objects.Collectables
                         }
                     }
             }
-
-            //player.Equipment.Items.greenKeys--;
             player.bootyKeys.greenKeys--;
-
             player.SendPacket($"0|A|BK|{player.bootyKeys.greenKeys}");
 
         }
