@@ -142,82 +142,57 @@ namespace Darkorbit.Game.Objects.Players.Managers
             }
             string DroneCount1Config()
             {
-                string[] irises = new string[irisCount];
-                string[] flaxes = new string[flaxCount];
+                string[] drones = new string[totalDrones]; 
+
                 for (int j = 0; j < irisCount; j++)
                 {
-                    irises[j] = "2";
+                    drones[irisCount] = "2";
                 }
-                for (int j = 0; j < flaxCount; j++)
+                for (int j = irisCount; j < totalDrones; j++)
                 {
-                    flaxes[j] = "17";
+                    drones[j] = "17";
                 }
                 string DronePacket = "";
                 int i = 0;
-                foreach(var item in irises)
+                foreach(var item in drones)
                 {
-                    if (flaxCount == 0)
-                    {
+                    
                         if(i == totalDrones - 1)
                             DronePacket += $"{item}|{level}|{GetDesignId(Config1Designs[0])}";
                         else
                             DronePacket += $"{item}|{level}|{GetDesignId(Config1Designs[0])}|";
-                    }
+                    
                     i++;
                 }
-                i = 0;
-                foreach(var item in flaxes)
-                {
-                    if(i == totalDrones - 1)
-                    {
-                        DronePacket += $"{item}|{level}|{GetDesignId(Config1Designs[0])}";
-                    }
-                    else
-                    {
-                        DronePacket += $"{item}|{level}|{GetDesignId(Config1Designs[0])}|";
-                    }
-                }
+                
                 return DronePacket;
             }
 
             string DroneCount2Config()
             {
-                string[] irises = new string[irisCount];
-                string[] flaxes = new string[flaxCount];
+                string[] drones = new string[totalDrones];
+
                 for (int j = 0; j < irisCount; j++)
                 {
-                    irises[j] = "2";
+                    drones[irisCount] = "2";
                 }
-                for (int j = 0; j < flaxCount; j++)
+                for (int j = irisCount; j < totalDrones; j++)
                 {
-                    flaxes[j] = "17";
+                    drones[j] = "17";
                 }
                 string DronePacket = "";
                 int i = 0;
-                foreach (var item in irises)
+                foreach (var item in drones)
                 {
-                    if (flaxCount == 0)
-                    {
-                        if (i == totalDrones - 1)
-                            DronePacket += $"{item}|{level}|{GetDesignId(Config1Designs[0])}";
-                        else
-                            DronePacket += $"{item}|{level}|{GetDesignId(Config1Designs[0])}|";
-                    }
+
+                    if (i == totalDrones - 1)
+                        DronePacket += $"{item}|{level}|{GetDesignId(Config1Designs[0])}";
+                    else
+                        DronePacket += $"{item}|{level}|{GetDesignId(Config1Designs[0])}|";
+
                     i++;
                 }
-                i = 0;
-                foreach (var item in flaxes)
-                {
-                    if (i == totalDrones - 1)
-                    {
-                        DronePacket += $"{item}|{level}|{GetDesignId(Config1Designs[0])}";
-                    }
-                    else
-                    {
-                        DronePacket += $"{item}|{level}|{GetDesignId(Config1Designs[0])}|";
-                    }
-                }
-                return DronePacket;
+
                 return DronePacket;
             }
             if (Player.CurrentConfig == 1)
