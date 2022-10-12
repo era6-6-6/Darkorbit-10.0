@@ -6,7 +6,11 @@ namespace Darkorbit.Game.Objects.Players.Managers
     {
         public List<int> Config1Designs = new List<int> { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
         public List<int> Config2Designs = new List<int> { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
-        public int iriscount = 0;
+        public int irisCount = 0;
+        public int flaxCount = 0;
+        public int totalDrones = 0;
+        public string[] irises;
+        public string[] flaxes;
         public bool Apis = false;
         public bool Zeus = false;
 
@@ -72,7 +76,7 @@ namespace Darkorbit.Game.Objects.Players.Managers
                 dynamic config1Drones = JsonConvert.DeserializeObject(querySet["config1_drones"].ToString());
                 dynamic config2Drones = JsonConvert.DeserializeObject(querySet["config2_drones"].ToString());
                 dynamic items = JsonConvert.DeserializeObject(querySet["items"].ToString());
-                iriscount = items["iriscount"];
+               
                 //Console.WriteLine("IRISCOUNT : " + iriscount);
 
                 Apis = items["apis"];
@@ -80,15 +84,15 @@ namespace Darkorbit.Game.Objects.Players.Managers
 
                 if (Apis)
                 {
-                    iriscount++;
+                    
                 }
 
                 if (Zeus)
                 {
-                    iriscount++;
+                    
                 }
 
-                for (var i = 0; i < iriscount; i++)
+                for (var i = 0; i < totalDrones; i++)
                 {
                     foreach (var designId in config1Drones[i]["designs"])
                         Config1Designs[i] = (int)designId;
@@ -126,135 +130,94 @@ namespace Darkorbit.Game.Objects.Players.Managers
             {
                 var querySet = mySqlClient.ExecuteQueryRow($"SELECT items FROM player_equipment WHERE userId = {Player.Id}");
                 dynamic items = JsonConvert.DeserializeObject(querySet["items"].ToString());
-                var dronecount = items["iriscount"];
+                var iriscount = items["iriscount"];
                 var dronecount1 = items["iriscount1"];
-                //Console.WriteLine("DRONE PACKET IRIS COUNT: " + dronecount);
-                iriscount = dronecount;
+                var flaxCount = items["flaxcount"];
+
+                irisCount = (int)iriscount;
+                flaxCount = (int)flaxCount;
+                totalDrones = (int)iriscount + (int)flaxCount;
+
+
             }
             string DroneCount1Config()
             {
-                if (iriscount == 0)
+                string[] irises = new string[irisCount];
+                string[] flaxes = new string[flaxCount];
+                for (int j = 0; j < irisCount; j++)
                 {
-                    DronePacket = $"";
+                    irises[j] = "2";
                 }
-                if (iriscount == 1)
+                for (int j = 0; j < flaxCount; j++)
                 {
-                    DronePacket = $"2|{level}|";
+                    flaxes[j] = "17";
                 }
-                if (iriscount == 2)
+                string DronePacket = "";
+                int i = 0;
+                foreach(var item in irises)
                 {
-                    DronePacket = $"2|{level}|{GetDesignId(Config1Designs[0])}|2|{level}|{GetDesignId(Config1Designs[1])}";
+                    if (flaxCount == 0)
+                    {
+                        if(i == totalDrones - 1)
+                            DronePacket += $"{item}|{level}|{GetDesignId(Config1Designs[0])}";
+                        else
+                            DronePacket += $"{item}|{level}|{GetDesignId(Config1Designs[0])}|";
+                    }
+                    i++;
                 }
-                if (iriscount == 3)
+                i = 0;
+                foreach(var item in flaxes)
                 {
-                    DronePacket = $"2|{level}|{GetDesignId(Config1Designs[0])}|2|{level}|{GetDesignId(Config1Designs[1])}|2|{level}|{GetDesignId(Config1Designs[2])}";
+                    if(i == totalDrones - 1)
+                    {
+                        DronePacket += $"{item}|{level}|{GetDesignId(Config1Designs[0])}";
+                    }
+                    else
+                    {
+                        DronePacket += $"{item}|{level}|{GetDesignId(Config1Designs[0])}|";
+                    }
                 }
-                if (iriscount == 4)
-                {
-                    DronePacket = $"2|{level}|{GetDesignId(Config1Designs[0])}|2|{level}|{GetDesignId(Config1Designs[1])}|2|{level}|{GetDesignId(Config1Designs[2])}|2|{level}|{GetDesignId(Config1Designs[3])}";
-                }
-                if (iriscount == 5)
-                {
-                    DronePacket = $"2|{level}|{GetDesignId(Config1Designs[0])}|2|{level}|{GetDesignId(Config1Designs[1])}|2|{level}|{GetDesignId(Config1Designs[2])}|2|{level}|{GetDesignId(Config1Designs[3])}|2|{level}|{GetDesignId(Config1Designs[4])}";
-                }
-                if (iriscount == 6)
-                {
-                    DronePacket = $"2|{level}|{GetDesignId(Config1Designs[0])}|2|{level}|{GetDesignId(Config1Designs[1])}|2|{level}|{GetDesignId(Config1Designs[2])}|2|{level}|{GetDesignId(Config1Designs[3])}|2|{level}|{GetDesignId(Config1Designs[4])}|2|{level}|{GetDesignId(Config1Designs[5])}";
-                }
-                if (iriscount == 7)
-                {
-                    DronePacket = $"2|{level}|{GetDesignId(Config1Designs[0])}|2|{level}|{GetDesignId(Config1Designs[1])}|2|{level}|{GetDesignId(Config1Designs[2])}|2|{level}|{GetDesignId(Config1Designs[3])}|2|{level}|{GetDesignId(Config1Designs[4])}|2|{level}|{GetDesignId(Config1Designs[5])}|2|{level}|{GetDesignId(Config1Designs[6])}";
-                }
-                if (iriscount == 8)
-                {
-                    DronePacket = $"2|{level}|{GetDesignId(Config1Designs[0])}|2|{level}|{GetDesignId(Config1Designs[1])}|2|{level}|{GetDesignId(Config1Designs[2])}|2|{level}|{GetDesignId(Config1Designs[3])}|2|{level}|{GetDesignId(Config1Designs[4])}|2|{level}|{GetDesignId(Config1Designs[5])}|2|{level}|{GetDesignId(Config1Designs[6])}|2|{level}|{GetDesignId(Config1Designs[7])}";
-                }
-                //int conf = 0;
-                //for (int i = 0; i < iriscount; i++)
-                //{
-                //    if (iriscount == 0)
-                //    {
-                //        DronePacket = $"";
-                //        break;
-                //    }
-                //    else
-                //    {
-                //        DronePacket2 = $"2|{level}|{GetDesignId(Config1Designs[i])}|";
-                //        DronePacket += DronePacket2;
-                //    }
-                //    //Console.WriteLine("Conf 1 Counter: " + i);
-                //}
-                ////{
-                ////    DronePacket = $"" + "2|{level}|{GetDesignId(Config1Designs["+ i + "])}|";
-                ////}
-
-                ////DronePacket += $"2|{level}|{GetDesignId(Config1Designs[iriscount+1])}";
-                //Console.WriteLine("SEIDR TEST: " + DronePacket);
                 return DronePacket;
             }
 
             string DroneCount2Config()
             {
-                if (iriscount == 0)
+                string[] irises = new string[irisCount];
+                string[] flaxes = new string[flaxCount];
+                for (int j = 0; j < irisCount; j++)
                 {
-                    DronePacket = $"";
+                    irises[j] = "2";
                 }
-                if (iriscount == 1)
+                for (int j = 0; j < flaxCount; j++)
                 {
-                    DronePacket = $"2|{level}|{GetDesignId(Config2Designs[0])}";
+                    flaxes[j] = "17";
                 }
-                if (iriscount == 2)
+                string DronePacket = "";
+                int i = 0;
+                foreach (var item in irises)
                 {
-                    DronePacket = $"2|{level}|{GetDesignId(Config2Designs[0])}|2|{level}|{GetDesignId(Config2Designs[1])}";
+                    if (flaxCount == 0)
+                    {
+                        if (i == totalDrones - 1)
+                            DronePacket += $"{item}|{level}|{GetDesignId(Config1Designs[0])}";
+                        else
+                            DronePacket += $"{item}|{level}|{GetDesignId(Config1Designs[0])}|";
+                    }
+                    i++;
                 }
-                if (iriscount == 3)
+                i = 0;
+                foreach (var item in flaxes)
                 {
-                    DronePacket = $"2|{level}|{GetDesignId(Config2Designs[0])}|2|{level}|{GetDesignId(Config2Designs[1])}|2|{level}|{GetDesignId(Config2Designs[2])}";
+                    if (i == totalDrones - 1)
+                    {
+                        DronePacket += $"{item}|{level}|{GetDesignId(Config1Designs[0])}";
+                    }
+                    else
+                    {
+                        DronePacket += $"{item}|{level}|{GetDesignId(Config1Designs[0])}|";
+                    }
                 }
-                if (iriscount == 4)
-                {
-                    DronePacket = $"2|{level}|{GetDesignId(Config2Designs[0])}|2|{level}|{GetDesignId(Config2Designs[1])}|2|{level}|{GetDesignId(Config2Designs[2])}|2|{level}|{GetDesignId(Config2Designs[3])}";
-                }
-                if (iriscount == 5)
-                {
-                    DronePacket = $"2|{level}|{GetDesignId(Config2Designs[0])}|2|{level}|{GetDesignId(Config2Designs[1])}|2|{level}|{GetDesignId(Config2Designs[2])}|2|{level}|{GetDesignId(Config2Designs[3])}|2|{level}|{GetDesignId(Config2Designs[4])}";
-                }
-                if (iriscount == 6)
-                {
-                    DronePacket = $"2|{level}|{GetDesignId(Config2Designs[0])}|2|{level}|{GetDesignId(Config2Designs[1])}|2|{level}|{GetDesignId(Config2Designs[2])}|2|{level}|{GetDesignId(Config2Designs[3])}|2|{level}|{GetDesignId(Config2Designs[4])}|2|{level}|{GetDesignId(Config2Designs[5])}";
-                }
-                if (iriscount == 7)
-                {
-                    DronePacket = $"2|{level}|{GetDesignId(Config2Designs[0])}|2|{level}|{GetDesignId(Config2Designs[1])}|2|{level}|{GetDesignId(Config2Designs[2])}|2|{level}|{GetDesignId(Config2Designs[3])}|2|{level}|{GetDesignId(Config2Designs[4])}|2|{level}|{GetDesignId(Config2Designs[5])}|2|{level}|{GetDesignId(Config2Designs[6])}";
-                }
-                if (iriscount == 8)
-                {
-                    DronePacket = $"2|{level}|{GetDesignId(Config2Designs[0])}|2|{level}|{GetDesignId(Config2Designs[1])}|2|{level}|{GetDesignId(Config2Designs[2])}|2|{level}|{GetDesignId(Config2Designs[3])}|2|{level}|{GetDesignId(Config2Designs[4])}|2|{level}|{GetDesignId(Config2Designs[5])}|2|{level}|{GetDesignId(Config2Designs[6])}|2|{level}|{GetDesignId(Config2Designs[7])}";
-                }
-                //if (iriscount == 9)
-                //{
-                //    DronePacket = $"2|{level}|{GetDesignId(Config2Designs[0])}|2|{level}|{GetDesignId(Config2Designs[1])}|2|{level}|{GetDesignId(Config2Designs[2])}|2|{level}|{GetDesignId(Config2Designs[3])}|2|{level}|{GetDesignId(Config2Designs[4])}|2|{level}|{GetDesignId(Config2Designs[5])}|2|{level}|{GetDesignId(Config2Designs[6])}|2|{level}|{GetDesignId(Config2Designs[7])}|2|{level}|{GetDesignId(Config2Designs[8])}";
-                //}
-                //if (iriscount == 10)
-                //{
-                //    DronePacket = $"2|{level}|{GetDesignId(Config2Designs[0])}|2|{level}|{GetDesignId(Config2Designs[1])}|2|{level}|{GetDesignId(Config2Designs[2])}|2|{level}|{GetDesignId(Config2Designs[3])}|2|{level}|{GetDesignId(Config2Designs[4])}|2|{level}|{GetDesignId(Config2Designs[5])}|2|{level}|{GetDesignId(Config2Designs[6])}|2|{level}|{GetDesignId(Config2Designs[7])}|2|{level}|{GetDesignId(Config2Designs[8])}|2|{level}|{GetDesignId(Config2Designs[9])}";
-                //}
-                //int conf = 0;
-                //for (int i = 0; i < iriscount; i++)
-                //{
-                //    if (iriscount == 0)
-                //    {
-                //        DronePacket = $"";
-                //        break;
-                //    }
-                //    else
-                //    {
-                //        DronePacket2 = $"2|{level}|{GetDesignId(Config1Designs[i])}|";
-                //        DronePacket += DronePacket2;
-                //    }
-                //    Console.WriteLine("Conf 2 Counter: " + i);
-                //}
-                //Console.WriteLine("SEIDR TEST: " + DronePacket);
+                return DronePacket;
                 return DronePacket;
             }
             if (Player.CurrentConfig == 1)
