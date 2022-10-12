@@ -26,14 +26,11 @@ namespace Darkorbit.Utils
                 {
                     if (!File.Exists(Path.Combine(path, fileName)))
                     {
-                        using (FileStream fs = File.Create(path + fileName))
-                        {
-                            fs.Flush();
-                            fs.Close();
-                        }
+                        var file = File.Create(path + fileName);
+                        file.Close();
                     }
-
-                    using (StreamWriter sw = File.AppendText(path + fileName))
+                    var str = new FileStream(path + fileName, FileMode.Append, FileAccess.ReadWrite, FileShare.ReadWrite);
+                    using (StreamWriter sw = new StreamWriter(str))
                     {
                         sw.WriteLine($"[{DateTime.Now.ToString("dd.MM.yyyy HH: mm:ss")}] " + message);
                         sw.Flush();
