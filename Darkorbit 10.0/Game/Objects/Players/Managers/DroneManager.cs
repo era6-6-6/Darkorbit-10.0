@@ -142,15 +142,15 @@ namespace Darkorbit.Game.Objects.Players.Managers
             }
             string DroneCount1Config()
             {
-                string[] drones = new string[totalDrones]; 
+                string[] drones = new string[totalDrones];
 
                 for (int j = 0; j < irisCount; j++)
                 {
-                    drones[irisCount] = "2";
+                    drones[j] = "2";
                 }
                 for (int j = irisCount; j < totalDrones; j++)
                 {
-                    drones[j] = "17";
+                    drones[j] = "1";
                 }
                 string DronePacket = "";
                 int i = 0;
@@ -174,11 +174,11 @@ namespace Darkorbit.Game.Objects.Players.Managers
 
                 for (int j = 0; j < irisCount; j++)
                 {
-                    drones[irisCount] = "2";
+                    drones[j] = "2";
                 }
                 for (int j = irisCount; j < totalDrones; j++)
                 {
-                    drones[j] = "17";
+                    drones[j] = "1";
                 }
                 string DronePacket = "";
                 int i = 0;
