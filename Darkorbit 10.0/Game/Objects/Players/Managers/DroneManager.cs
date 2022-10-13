@@ -123,7 +123,7 @@ namespace Darkorbit.Game.Objects.Players.Managers
 
         public string GetDronesPacket(int exp)
         {
-            int level = 2;
+            int level = 1;
 
             var DronePacket = "";
             using (var mySqlClient = SqlDatabaseManager.GetClient())
