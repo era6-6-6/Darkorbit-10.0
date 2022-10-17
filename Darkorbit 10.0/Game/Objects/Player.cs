@@ -937,7 +937,7 @@ namespace Darkorbit.Game.Objects
             return ShipCreateCommand.write(
                 Id,
                 Ship.LootId,
-                10,
+                1,
                 !EventManager.JackpotBattle.InEvent(this) ? Clan.Tag : "",
                 !EventManager.JackpotBattle.InEvent(this) ? (otherPlayer.RankId == 22 ? $"{Name}" : Name) : EventManager.JackpotBattle.Name,
                 Position.X,
@@ -977,7 +977,7 @@ namespace Darkorbit.Game.Objects
                 Spacemap.Id,
                 FactionId,
                 Clan.Id,
-                10,
+                1,
                 Premium,
                 Data.experience,
                 Data.honor,
