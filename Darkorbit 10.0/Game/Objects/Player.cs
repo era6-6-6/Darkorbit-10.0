@@ -1149,10 +1149,12 @@ namespace Darkorbit.Game.Objects
 
         public void SelectEntity(int entityId)
         {
+            
             if (AttackManager.Attacking)
             {
                 DisableAttack(SettingsManager.Player.Settings.InGameSettings.selectedLaser);
             }
+            
 
             try
             {
@@ -1163,6 +1165,10 @@ namespace Darkorbit.Game.Objects
                     if (character != null && !character.Destroyed)
                     {
                         if (character is Player player && (player.AttackManager.EmpCooldown.AddMilliseconds(TimeManager.EMP_DURATION) > DateTime.Now))
+                        {
+                            return;
+                        }
+                        if (character.Position.DistanceTo(this.Position) > 1500)
                         {
                             return;
                         }
