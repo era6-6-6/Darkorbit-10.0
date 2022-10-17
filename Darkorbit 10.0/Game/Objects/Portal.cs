@@ -1,7 +1,7 @@
-﻿using Darkorbit.Game.Events.Data;
+﻿
+using Darkorbit.Game.Events.Data;
 using Darkorbit.Game.GalaxyGates;
 using Darkorbit.Game.Objects.Players.Stations;
-using Darkorbit_10._0.Game.Events.Data;
 using System.Data;
 
 namespace Darkorbit.Game.Objects
