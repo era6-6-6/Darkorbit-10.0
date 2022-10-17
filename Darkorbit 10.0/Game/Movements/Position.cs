@@ -21,9 +21,11 @@ namespace Darkorbit.Game.Movements
         public static Position TDMEIC = new Position(18900, 2000);
         public static Position TDMVRU = new Position(18900, 6400);
         public static Position TDMMMO = new Position(2000, 6400);
-        public static Position newMMOPosition = new Position(2000, 2000);
-        public static Position newEICPosition = new Position(18900, 2000);
-        public static Position newVRUPosition = new Position(18900, 12000);
+
+        
+        public static Position newMMOPosition = new Position(2000, 6400);
+        public static Position newEICPosition = new Position(11900, 2000);
+        public static Position newVRUPosition = new Position(18900, 6400);
 
         public int X { get; set; }
         public int Y { get; set; }

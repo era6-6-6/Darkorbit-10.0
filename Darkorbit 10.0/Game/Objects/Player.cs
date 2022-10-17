@@ -1384,26 +1384,7 @@ namespace Darkorbit.Game.Objects
 
         public int GetBaseMapId(bool gate = false)
         {
-            //int ShipSpacemapId = positionInitializacion.mapID;
-
-            //if (ShipSpacemapId == 306 && ShipSpacemapId == 307 && ShipSpacemapId == 308)
-            //{
-            //    return FactionId == 1 ? 20 : FactionId == 2 ? 24 : 28;
-            //}
-            //if (ShipSpacemapId >= 16 && ShipSpacemapId <= 29 && Level >= 12)
-            //{
-            //    return FactionId == 1 ? 20 : FactionId == 2 ? 24 : 28;
-            //}
-            //return FactionId == 1 ? 1 : FactionId == 2 ? 5 : 9;
-
-            //if (Spacemap.Id >= 16 && Spacemap.Id <= 29 || Spacemap.Id >= 306 && Spacemap.Id <= 308)
-            //{
-            //    return FactionId == 1 ? 20 : FactionId == 2 ? 24 : 28;
-            //}
-            //else
-            //{
-            //    return FactionId == 1 ? 1 : FactionId == 2 ? 5 : 9;
-            //}
+            
             if(gate || activeMapId.ToString().StartsWith("99") || activeMapId.ToString().StartsWith("88"))
             {
                 return FactionId == 1 ? 1 : FactionId == 2 ? 24 : 9;
@@ -1426,50 +1407,30 @@ namespace Darkorbit.Game.Objects
 
         public Position GetBasePosition(bool gate = false)
         {
-            //int ShipSpacemapId = positionInitializacion.mapID;
-
-            //if (ShipSpacemapId >= 306 || ShipSpacemapId == 307 || ShipSpacemapId == 308)
-            //{
-            //    return FactionId == 1 ? Position.newMMOPosition : FactionId == 2 ? Position.newEICPosition : Position.newVRUPosition;
-            //}
-            //if (ShipSpacemapId >= 16 && ShipSpacemapId <= 29 && Level >= 12)
-            //{
-            //    return FactionId == 1 ? Position.newMMOPosition : FactionId == 2 ? Position.newEICPosition : Position.newVRUPosition;
-            //}
-            //return FactionId == 1 ? Position.MMOPosition : FactionId == 2 ? Position.EICPosition : Position.VRUPosition;
-
-
-
-            //if (Spacemap.Id >= 16 && Spacemap.Id <= 29 || Spacemap.Id >= 306 && Spacemap.Id <= 308)
-            //{
-            //    return FactionId == 1 ? Position.newMMOPosition : FactionId == 2 ? Position.newEICPosition : Position.newVRUPosition;
-            //}
-            //else
-            //{
-            //    return FactionId == 1 ? Position.MMOPosition : FactionId == 2 ? Position.EICPosition : Position.VRUPosition;
-            //}
-            if(gate || activeMapId.ToString().StartsWith("99") || activeMapId.ToString().StartsWith("88")) return FactionId == 1 ? Position.MMOPosition : FactionId == 2 ? Position.EICPosition : Position.VRUPosition;
-            if (Spacemap == null)
-            {
+                if (gate || activeMapId.ToString().StartsWith("99") || activeMapId.ToString().StartsWith("88")) return FactionId == 1 ? Position.MMOPosition : FactionId == 2 ? Position.EICPosition : Position.VRUPosition;
+                if (Spacemap == null)
+                {
+                    return FactionId == 1 ? Position.newMMOPosition : FactionId == 2 ? Position.newEICPosition : Position.newVRUPosition;
+                }
+                if (Spacemap == null && TdmDestroyed == true)
+                {
+                    return FactionId == 1 ? Position.TDMMMO : FactionId == 2 ? Position.TDMEIC : Position.TDMVRU;
+                }
+                if (Spacemap.Id >= 16 && Spacemap.Id <= 29)
+                {
+                    return FactionId == 1 ? Position.newMMOPosition : FactionId == 2 ? Position.newEICPosition : Position.newVRUPosition;
+                }
+                if (Spacemap.Id <= 16)
+                {
+                    return FactionId == 1 ? Position.MMOPosition : FactionId == 2 ? Position.EICPosition : Position.VRUPosition;
+                }
+                if (Spacemap.Id == 41)
+                {
+                    return FactionId == 1 ? Position.TDMMMO : FactionId == 2 ? Position.TDMEIC : Position.TDMVRU;
+                }
                 return FactionId == 1 ? Position.newMMOPosition : FactionId == 2 ? Position.newEICPosition : Position.newVRUPosition;
-            }
-            if (Spacemap == null && TdmDestroyed == true)
-            {
-                return FactionId == 1 ? Position.TDMMMO : FactionId == 2 ? Position.TDMEIC : Position.TDMVRU;
-            }
-            if (Spacemap.Id >= 16 && Spacemap.Id <= 29)
-            {
-                return FactionId == 1 ? Position.newMMOPosition : FactionId == 2 ? Position.newEICPosition : Position.newVRUPosition;
-            }
-            if (Spacemap.Id <= 16)
-            {
-                return FactionId == 1 ? Position.MMOPosition : FactionId == 2 ? Position.EICPosition : Position.VRUPosition;
-            }
-            if(Spacemap.Id == 41)
-            {
-                return FactionId == 1 ? Position.TDMMMO : FactionId == 2 ? Position.TDMEIC : Position.TDMVRU;
-            }
-            return FactionId == 1 ? Position.newMMOPosition : FactionId == 2 ? Position.newEICPosition : Position.newVRUPosition;
+            
+           
         }
         
         public void LoadData()

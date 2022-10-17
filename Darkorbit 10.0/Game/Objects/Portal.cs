@@ -1,4 +1,5 @@
-﻿using Darkorbit.Game.GalaxyGates;
+﻿using Darkorbit.Game.Events.Data;
+using Darkorbit.Game.GalaxyGates;
 using Darkorbit.Game.Objects.Players.Stations;
 using Darkorbit_10._0.Game.Events.Data;
 using System.Data;
@@ -52,11 +53,27 @@ namespace Darkorbit.Game.Objects
                 
                 if ((!Working || GameManager.GetSpacemap(TargetSpaceMapId) == null || TargetPosition == null) && TargetSpaceMapId != -1) return;
                 if (player.Storage.Jumping || player.Destroyed) return;
-                if (FactionId == 1)
+                if (player.FactionId == 1)
                 {
                     if(PortData.MMOPorts.Find(x => x.Item1 == TargetSpaceMapId).Item2 > player.Level)
                     {
-                        player.SendPacket($"0|A|STM|You need level {PortData.MMOPorts.Find(x => x.Item1 == TargetSpaceMapId).Item2} to access this map");
+                        player.SendPacket($"0|A|STM|You need level {PortData.MMOPorts.Find(x => x.Item1 == TargetSpaceMapId).Item2} to access this map!");
+                        return;
+                    }
+                }
+                else if(player.FactionId == 2)
+                {
+                    if (PortData.EICports.Find(x => x.Item1 == TargetSpaceMapId).Item2 > player.Level)
+                    {
+                        player.SendPacket($"0|A|STM|You need level {PortData.EICports.Find(x => x.Item1 == TargetSpaceMapId).Item2} to access this map!");
+                        return;
+                    }
+                }
+                else if(player.FactionId == 3)
+                {
+                    if (PortData.VRUPorts.Find(x => x.Item1 == TargetSpaceMapId).Item2 > player.Level)
+                    {
+                        player.SendPacket($"0|A|STM|You need level {PortData.VRUPorts.Find(x => x.Item1 == TargetSpaceMapId).Item2} to access this map!");
                         return;
                     }
                 }
