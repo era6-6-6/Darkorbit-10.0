@@ -54,7 +54,7 @@ namespace Darkorbit.Game.Objects
                 if (player.Storage.Jumping || player.Destroyed) return;
                 if (FactionId == 1)
                 {
-                    if(PortData.MMOPorts.Find(x => x.Item1 == TargetSpaceMapId).Item2 < player.Level)
+                    if(PortData.MMOPorts.Find(x => x.Item1 == TargetSpaceMapId).Item2 > player.Level)
                     {
                         player.SendPacket($"0|A|STM|You need level {PortData.MMOPorts.Find(x => x.Item1 == TargetSpaceMapId).Item2} to access this map");
                         return;
