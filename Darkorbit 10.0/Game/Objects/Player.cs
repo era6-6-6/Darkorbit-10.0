@@ -1390,14 +1390,14 @@ namespace Darkorbit.Game.Objects
             
             if(gate || activeMapId.ToString().StartsWith("99") || activeMapId.ToString().StartsWith("88"))
             {
-                return FactionId == 1 ? 1 : FactionId == 2 ? 24 : 9;
+                return FactionId == 1 ? 1 : FactionId == 2 ? 5 : 9;
             }
             if (Spacemap == null)
             {
-                return FactionId == 1 ? 1 : FactionId == 2 ? 24 : 9;
+                return FactionId == 1 ? 1 : FactionId == 2 ? 5 : 9;
             }
 
-            if (Spacemap.Id >= 16 && Spacemap.Id <= 29)
+            if (Spacemap.Id >= 16 && Spacemap.Id <= 29 && Level >= 12)
             {
                 return FactionId == 1 ? 20 : FactionId == 2 ? 24 : 28;
             }
@@ -1405,7 +1405,7 @@ namespace Darkorbit.Game.Objects
             {
                 return FactionId == 1 ? 1 : FactionId == 2 ? 5 : 9;
             }
-            return FactionId == 1 ? 1 : FactionId == 2 ? 24 : 9;
+            return FactionId == 1 ? 1 : FactionId == 2 ? 5 : 9;
         }
 
         public Position GetBasePosition(bool gate = false)
@@ -1419,7 +1419,7 @@ namespace Darkorbit.Game.Objects
                 {
                     return FactionId == 1 ? Position.TDMMMO : FactionId == 2 ? Position.TDMEIC : Position.TDMVRU;
                 }
-                if (Spacemap.Id >= 16 && Spacemap.Id <= 29)
+                if (Spacemap.Id >= 16 && Spacemap.Id <= 29 )
                 {
                     return FactionId == 1 ? Position.newMMOPosition : FactionId == 2 ? Position.newEICPosition : Position.newVRUPosition;
                 }
