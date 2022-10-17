@@ -60,8 +60,9 @@ namespace Darkorbit.Game.Objects
         public string premiumOld = null;
 
         public TDM_Lobby tdmLobby = null;
+        private int DestroyedOnSpacemap = 0;
 
-        
+
         public int NLevel
         {
             get
@@ -1333,8 +1334,9 @@ namespace Darkorbit.Game.Objects
         {
             LastCombatTime = DateTime.Now.AddSeconds(-999);
             //isInMapPremium = false;
+            DestroyedOnSpacemap = Spacemap.Id;
 
-
+            
             AddVisualModifier(VisualModifierCommand.INVINCIBILITY, 0, "", 0, true);
 
             Storage.IsInDemilitarizedZone = basicRepair || fullRepair ? true : false;
@@ -1365,6 +1367,7 @@ namespace Darkorbit.Game.Objects
 
             if (basicRepair || fullRepair)
             {
+                
                 Spacemap = GameManager.GetSpacemap(GetBaseMapId());
             }
 
@@ -1396,7 +1399,7 @@ namespace Darkorbit.Game.Objects
 
             if (Spacemap.Id >= 16 && Spacemap.Id <= 29)
             {
-                return FactionId == 1 ? 1 : FactionId == 2 ? 24 : 9;
+                return FactionId == 1 ? 20 : FactionId == 2 ? 24 : 28;
             }
             if (Spacemap.Id <= 16)
             {
@@ -1428,7 +1431,7 @@ namespace Darkorbit.Game.Objects
                 {
                     return FactionId == 1 ? Position.TDMMMO : FactionId == 2 ? Position.TDMEIC : Position.TDMVRU;
                 }
-                return FactionId == 1 ? Position.newMMOPosition : FactionId == 2 ? Position.newEICPosition : Position.newVRUPosition;
+                return FactionId == 1 ? Position.MMOPosition : FactionId == 2 ? Position.EICPosition : Position.VRUPosition;
             
            
         }
