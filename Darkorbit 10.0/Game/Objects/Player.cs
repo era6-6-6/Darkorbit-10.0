@@ -977,7 +977,7 @@ namespace Darkorbit.Game.Objects
                 Spacemap.Id,
                 FactionId,
                 Clan.Id,
-                2,
+                65,
                 Premium,
                 Data.experience,
                 Data.honor,
