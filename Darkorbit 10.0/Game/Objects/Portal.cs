@@ -1,5 +1,6 @@
 ﻿using Darkorbit.Game.GalaxyGates;
 using Darkorbit.Game.Objects.Players.Stations;
+using Darkorbit_10._0.Game.Events.Data;
 using System.Data;
 
 namespace Darkorbit.Game.Objects
@@ -51,9 +52,15 @@ namespace Darkorbit.Game.Objects
                 
                 if ((!Working || GameManager.GetSpacemap(TargetSpaceMapId) == null || TargetPosition == null) && TargetSpaceMapId != -1) return;
                 if (player.Storage.Jumping || player.Destroyed) return;
-
-                if (TargetSpaceMapId == 16 && player.Level < 1 && player.RankId < 22) { player.SendPacket($"0|A|STM|You need level 1"); return; }
-                if (TargetSpaceMapId == 29 && player.Level < 1 && player.RankId < 22) { player.SendPacket($"0|A|STM|You need level 1"); return; }
+                if (FactionId == 1)
+                {
+                    if(PortData.MMOPorts.Find(x => x.Item1 == TargetSpaceMapId).Item2 < player.Level)
+                    {
+                        player.SendPacket($"0|A|STM|You need level {PortData.MMOPorts.Find(x => x.Item1 == TargetSpaceMapId).Item2} to access this map");
+                        return;
+                    }
+                }
+                
 
                 //if (TargetSpaceMapId == 306 && player.Level < 20 && (player.Spacemap.Id == 306 || player.Spacemap.Id == 307 || player.Spacemap.Id == 308)) { player.SendPacket($"0|A|STM|You need level 20 to access in BL-1"); return; }
                 //if (TargetSpaceMapId == 307 && player.Level < 20 && (player.Spacemap.Id == 306 || player.Spacemap.Id == 307 || player.Spacemap.Id == 308)) { player.SendPacket($"0|A|STM|You need level 20 to access in BL-2"); return; }
