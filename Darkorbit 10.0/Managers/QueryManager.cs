@@ -541,13 +541,13 @@ namespace Darkorbit.Managers
                         }
 
                         player.SkillTree = JsonConvert.DeserializeObject<SkillTreeBase>(row["skill_points"].ToString());
-                        if (player.SkillTree.luck2 == 3)
+                        if (player.SkillTree.bountyhunter2 == 3)
                         {
                             player.bountyHunterAquired = true;
                         }
-                        if(player.SkillTree.shieldMechanics == 5)
+                        if(player.SkillTree.shieldmechanics == 5)
                         {
-                            player.shieldMechanics = true;
+                            player.shieldmechanics = true;
                         }
 
                         dynamic items = JsonConvert.DeserializeObject(row["items"].ToString());
@@ -646,11 +646,11 @@ namespace Darkorbit.Managers
                     var r = mySqlClient.ExecuteQueryRow($"SELECT * FROM player_equipment WHERE userId = {player.Id}");
 
                     var bo3Shield = 6950 + Maths.GetPercentage(30000, (int)r["B03lvl"]);
-                    var bo2Shield = 14000; //+ Maths.GetPercentage(30000, (int)r["B02lvl"]);
-                    var B01Shield = 5000;// + Maths.GetPercentage(30000, (int)r["B01lvl"]);
-                    var A03Shield = 3000;// + Maths.GetPercentage(30000, (int)r["A03lvl"]);
-                    var A02Shield = 1500;// + Maths.GetPercentage(30000, (int)r["A02lvl"]);
-                    var A01Shield = 1000;// + Maths.GetPercentage(30000, (int)r["A01lvl"]);
+                    var bo2Shield = 12000; //+ Maths.GetPercentage(30000, (int)r["B02lvl"]);
+                    var B01Shield = 11400;// + Maths.GetPercentage(30000, (int)r["B01lvl"]);
+                    var A03Shield = 6000;// + Maths.GetPercentage(30000, (int)r["A03lvl"]);
+                    var A02Shield = 2400;// + Maths.GetPercentage(30000, (int)r["A02lvl"]);
+                    var A01Shield = 1200;// + Maths.GetPercentage(30000, (int)r["A01lvl"]);
 
                     var g3n1010Speed = 2;
                     var g3n2010Speed = 3;
@@ -662,10 +662,10 @@ namespace Darkorbit.Managers
                     player.lf5lvl = (int)r["lf5lvl"];
 
 
-                    var lf1Damage = 100;// + Maths.GetPercentage(100, (int)r["lf1lvl"]);
-                    var lf2Damage = 130;// + Maths.GetPercentage(100, (int)r["lf2lvl"]);
-                    var lf3Damage = 185;// + Maths.GetPercentage(500, (int)r["lf3lvl"]);
-                    var lf4Damage = 310;// + Maths.GetPercentage(500, (int)r["lf4lvl"]);
+                    var lf1Damage = 80;// + Maths.GetPercentage(100, (int)r["lf1lvl"]);
+                    var lf2Damage = 155;// + Maths.GetPercentage(100, (int)r["lf2lvl"]);
+                    var lf3Damage = 190;// + Maths.GetPercentage(500, (int)r["lf3lvl"]);
+                    var lf4Damage = 90;// + Maths.GetPercentage(500, (int)r["lf4lvl"]);
                     var lf5Damage = 400;// + Maths.GetPercentage(600, (int)r["lf5lvl"]);
 
 
@@ -808,13 +808,15 @@ namespace Darkorbit.Managers
                                     }
                                 }
 
-                                var droneShield3 = bo3Shield + Maths.GetPercentage(bo3Shield, 25);
+                                var droneShield3 = bo3Shield ;
                                 var droneShield2 = bo2Shield ;
-                                var droneShield1 = B01Shield + Maths.GetPercentage(B01Shield, 15);
+                                var droneShield1 = B01Shield ;
 
-                                var droneShield4 = A01Shield + Maths.GetPercentage(A01Shield, 5);
-                                var droneShield5 = A02Shield + Maths.GetPercentage(A02Shield, 10);
-                                var droneShield6 = A03Shield + Maths.GetPercentage(A03Shield, 15);
+                                var droneShield4 = A01Shield ;
+                                var droneShield5 = A02Shield ;
+                                var droneShield6 = A03Shield ;
+
+                                
 
                                 foreach (int item in drone["items"])
                                 {
@@ -826,25 +828,121 @@ namespace Darkorbit.Managers
                                     }
                                     else if (item >= 180 && item < 220)
                                     {
-                                        damage[i - 1] += lf2Damage + Maths.GetPercentage(lf2Damage, 6);
-                                        lasers++;
-                                        player.lasers++;
+                                        if(player.droneExp >= 500 && player.droneExp < 800)
+                                        {
+                                            damage[i - 1] += lf2Damage + Maths.GetPercentage(lf2Damage, 2);
+                                            lasers++;
+                                            player.lasers++;
+                                        }else if (player.droneExp >= 800 && player.droneExp < 1200)
+                                        {
+                                            damage[i - 1] += lf2Damage + Maths.GetPercentage(lf2Damage, 4);
+                                            lasers++;
+                                            player.lasers++;
+                                        }
+                                        else if (player.droneExp >= 1200 && player.droneExp < 1700)
+                                        {
+                                            damage[i - 1] += lf2Damage + Maths.GetPercentage(lf2Damage, 6);
+                                            lasers++;
+                                            player.lasers++;
+                                        }
+                                        else if (player.droneExp >= 1700 && player.droneExp < 2500)
+                                        {
+                                            damage[i - 1] += lf2Damage + Maths.GetPercentage(lf2Damage, 8);
+                                            lasers++;
+                                            player.lasers++;
+                                        }
+                                        else if (player.droneExp >= 2500)
+                                        {
+                                            damage[i - 1] += lf2Damage + Maths.GetPercentage(lf2Damage, 10);
+                                            lasers++;
+                                            player.lasers++;
+                                        }
+                                        else
+                                        {
+                                            damage[i - 1] += lf2Damage;
+                                            lasers++;
+                                            player.lasers++;
+                                        }
                                     }
                                     else if (item >= 0 && item < 40)
                                     {
-                                        damage[i - 1] += lf3Damage + Maths.GetPercentage(lf3Damage, 10);
-                                        lasers++;
-                                        player.lasers++;
+                                        if (player.droneExp >= 500 && player.droneExp < 800)
+                                        {
+                                            damage[i - 1] += lf3Damage + Maths.GetPercentage(lf3Damage, 2);
+                                            lasers++;
+                                            player.lasers++;
+                                        }else if(player.droneExp >= 800 && player.droneExp < 1200)
+                                        {
+                                            damage[i - 1] += lf3Damage + Maths.GetPercentage(lf3Damage, 4);
+                                            lasers++;
+                                            player.lasers++;
+                                        }
+                                        else if (player.droneExp >= 1200 && player.droneExp < 1700)
+                                        {
+                                            damage[i - 1] += lf3Damage + Maths.GetPercentage(lf3Damage, 6);
+                                            lasers++;
+                                            player.lasers++;
+                                        }
+                                        else if (player.droneExp >= 1700 && player.droneExp < 2500)
+                                        {
+                                            damage[i - 1] += lf3Damage + Maths.GetPercentage(lf3Damage, 8);
+                                            lasers++;
+                                            player.lasers++;
+                                        }
+                                        else if (player.droneExp >= 2500)
+                                        {
+                                            damage[i - 1] += lf3Damage + Maths.GetPercentage(lf3Damage, 10);
+                                            lasers++;
+                                            player.lasers++;
+                                        }
+                                        else
+                                        {
+                                            damage[i - 1] += lf3Damage;
+                                            lasers++;
+                                            player.lasers++;
+                                        }
                                     }
                                     else if (item >= 140 && item < 180)
                                     {
-                                        damage[i - 1] += lf4Damage + Maths.GetPercentage(lf4Damage, 15);
-                                        lasers++;
-                                        player.lasers++;
+                                        if (player.droneExp >= 500 && player.droneExp < 800)
+                                        {
+                                            damage[i - 1] += lf4Damage + Maths.GetPercentage(lf4Damage, 2);
+                                            lasers++;
+                                            player.lasers++;
+                                        }
+                                        else if (player.droneExp >= 800 && player.droneExp < 1200) {
+                                            damage[i - 1] += lf4Damage + Maths.GetPercentage(lf4Damage, 4);
+                                            lasers++;
+                                            player.lasers++;
+                                        }
+                                        else if (player.droneExp >= 1200 && player.droneExp < 1700)
+                                        {
+                                            damage[i - 1] += lf4Damage + Maths.GetPercentage(lf4Damage, 6);
+                                            lasers++;
+                                            player.lasers++;
+                                        }
+                                        else if (player.droneExp >= 1700 && player.droneExp < 2500)
+                                        {
+                                            damage[i - 1] += lf4Damage + Maths.GetPercentage(lf4Damage, 8);
+                                            lasers++;
+                                            player.lasers++;
+                                        }
+                                        else if (player.droneExp >= 2500)
+                                        {
+                                            damage[i - 1] += lf4Damage + Maths.GetPercentage(lf4Damage, 10);
+                                            lasers++;
+                                            player.lasers++;
+                                        }
+                                        else
+                                        {
+                                            damage[i - 1] += lf4Damage;
+                                            lasers++;
+                                            player.lasers++;
+                                        }
                                     }
                                     else if (item >= 260 && item < 300)
                                     {
-                                        damage[i - 1] += lf5Damage + Maths.GetPercentage(lf5Damage, 25);
+                                        damage[i - 1] += lf5Damage + Maths.GetPercentage(lf5Damage, 10);
                                         lf5++;
                                         lasers++;
                                         player.lasers++;
@@ -852,17 +950,17 @@ namespace Darkorbit.Managers
 
 
                                     else if (item >= 300 && item < 340)
-                                        shield[i - 1] += droneShield4 + (herculesEquipped ? +Maths.GetPercentage(droneShield4, 15) : +Maths.GetPercentage(droneShield4, 15));
+                                        shield[i - 1] += droneShield4 + (herculesEquipped ? +Maths.GetPercentage(droneShield4, 15) : +Maths.GetPercentage(droneShield4, 20));
                                     else if (item >= 340 && item < 380)
-                                        shield[i - 1] += droneShield5 + (herculesEquipped ? +Maths.GetPercentage(droneShield5, 15) : +Maths.GetPercentage(droneShield5, 15));
+                                        shield[i - 1] += droneShield5 + (herculesEquipped ? +Maths.GetPercentage(droneShield5, 15) : +Maths.GetPercentage(droneShield5, 20));
                                     else if (item >= 380 && item < 420)
-                                        shield[i - 1] += droneShield6 + (herculesEquipped ? +Maths.GetPercentage(droneShield6, 15) : +Maths.GetPercentage(droneShield6, 15));
+                                        shield[i - 1] += droneShield6 + (herculesEquipped ? +Maths.GetPercentage(droneShield6, 15) : +Maths.GetPercentage(droneShield6, 20));
                                     else if (item >= 420 && item < 460)
-                                        shield[i - 1] += droneShield1 + (herculesEquipped ? +Maths.GetPercentage(droneShield1, 15) : +Maths.GetPercentage(droneShield1, 15));
+                                        shield[i - 1] += droneShield1 + (herculesEquipped ? +Maths.GetPercentage(droneShield1, 15) : +Maths.GetPercentage(droneShield1, 20));
                                     else if (item >= 40 && item < 100)
                                         shield[i - 1] += droneShield2 + (herculesEquipped ? +Maths.GetPercentage(droneShield2, 15) : +Maths.GetPercentage(droneShield2, 20));
                                     else if (item >= 460 && item < 500)
-                                        shield[i - 1] += droneShield3 + (herculesEquipped ? +Maths.GetPercentage(droneShield3, 15) : +Maths.GetPercentage(droneShield3, 15));
+                                        shield[i - 1] += droneShield3 + (herculesEquipped ? +Maths.GetPercentage(droneShield3, 15) : +Maths.GetPercentage(droneShield3, 20));
 
                                 }
                             }

@@ -1090,40 +1090,36 @@ class SocketServer
     {
         if (player?.GameSession != null)
         {
-            if (skill == "engineering")
+            if (skill == "shiphull1")
+                player.SkillTree.shiphull1++;
+            else if (skill == "shiphull2")
+                player.SkillTree.shiphull2++;
+            else if (skill == "engineering")
                 player.SkillTree.engineering++;
-            else if (skill == "shieldEngineering")
-                player.SkillTree.shieldEngineering++;
-            else if (skill == "detonation1")
-                player.SkillTree.detonation1++;
-            else if (skill == "detonation2")
-                player.SkillTree.detonation2++;
-            else if (skill == "heatseekingMissiles")
-                player.SkillTree.heatseekingMissiles++;
-            else if (skill == "rocketFusion")
-                player.SkillTree.rocketFusion++;
-            else if (skill == "cruelty1")
-                player.SkillTree.cruelty1++;
-            else if (skill == "cruelty2")
-                player.SkillTree.cruelty2++;
-            else if (skill == "explosives")
-                player.SkillTree.explosives++;
+            else if (skill == "shieldengineering")
+                player.SkillTree.shieldengineering++;
+            else if (skill == "shieldmechanics")
+                player.SkillTree.shieldmechanics++;
+            else if (skill == "bountyhunter1")
+                player.SkillTree.bountyhunter1++;
+            else if (skill == "bountyhunter2")
+                player.SkillTree.bountyhunter2++;
+            else if (skill == "rocketfusion")
+                player.SkillTree.rocketfusion++;
+            else if (skill == "alienhunter")
+                player.SkillTree.alienhunter++;
+            else if (skill == "tactics")
+                player.SkillTree.tactics++;
             else if (skill == "luck1")
                 player.SkillTree.luck1++;
             else if (skill == "luck2")
                 player.SkillTree.luck2++;
-            else if (skill == "ishcd")
-                player.SkillTree.ishcd++;
-            else if (skill == "empcd")
-                player.SkillTree.empcd++;
-            else if (skill == "backupcd")
-                player.SkillTree.backupcd++;
-            else if (skill == "battlecd")
-                player.SkillTree.battlecd++;
-            else if (skill == "shieldMechanics")
-                player.SkillTree.shieldMechanics++;
-            else if (skill == "electroOptics")
-                player.SkillTree.electroOptics++;
+            else if (skill == "cruelty1")
+                player.SkillTree.cruelty1++;
+            else if (skill == "cruelty2")
+                player.SkillTree.cruelty2++;
+            else if (skill == "greed")
+                player.SkillTree.greed++;
         }
     }
 
@@ -1131,21 +1127,21 @@ class SocketServer
     {
         if (player?.GameSession != null)
         {
+            player.SkillTree.shiphull1 = 0;
+            player.SkillTree.shiphull2 = 0;
             player.SkillTree.engineering = 0;
-            player.SkillTree.shieldEngineering = 0;
-            player.SkillTree.detonation1 = 0;
-            player.SkillTree.detonation2 = 0;
-            player.SkillTree.heatseekingMissiles = 0;
-            player.SkillTree.rocketFusion = 0;
-            player.SkillTree.cruelty1 = 0;
-            player.SkillTree.cruelty2 = 0;
-            player.SkillTree.ishcd = 0;
-            player.SkillTree.empcd = 0;
-            player.SkillTree.explosives = 0;
+            player.SkillTree.shieldengineering = 0;
+            player.SkillTree.shieldmechanics = 0;
+            player.SkillTree.bountyhunter1 = 0;
+            player.SkillTree.bountyhunter2 = 0;
+            player.SkillTree.rocketfusion = 0;
+            player.SkillTree.alienhunter = 0;
+            player.SkillTree.tactics = 0;
             player.SkillTree.luck1 = 0;
             player.SkillTree.luck2 = 0;
-            player.SkillTree.shieldMechanics = 0;
-            player.SkillTree.electroOptics = 0;
+            player.SkillTree.cruelty1 = 0;
+            player.SkillTree.cruelty2 = 0;
+            player.SkillTree.greed = 0;
         }
     }
 

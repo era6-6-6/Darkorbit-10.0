@@ -234,7 +234,7 @@ namespace Darkorbit.Game.Objects
                     {
                         if (!otherPlayer.AttackingOrUnderAttack())
                         {
-                            otherPlayer.SendCommand(ShipSelectionCommand.write(Id, character.Ship.Id, CurrentShieldPoints, MaxShieldPoints, CurrentHitPoints, MaxHitPoints, CurrentNanoHull, MaxNanoHull, (this is Player && (this as Player).SkillTree.shieldEngineering == 5)));
+                            otherPlayer.SendCommand(ShipSelectionCommand.write(Id, character.Ship.Id, CurrentShieldPoints, MaxShieldPoints, CurrentHitPoints, MaxHitPoints, CurrentNanoHull, MaxNanoHull, (this is Player && (this as Player).SkillTree.shieldengineering == 5)));
                         }
                         else
                         {
@@ -611,7 +611,25 @@ namespace Darkorbit.Game.Objects
 
                 experience += Maths.GetPercentage(experience, destroyerPlayer.BoosterManager.GetPercentage(BoostedAttributeType.EP));
                 honor += Maths.GetPercentage(honor, destroyerPlayer.BoosterManager.GetPercentage(BoostedAttributeType.HONOUR));
-                honor += Maths.GetPercentage(honor, destroyerPlayer.GetSkillPercentage("Cruelty"));
+                if (destroyerPlayer.SkillTree.cruelty1 > 1)
+                {
+                    honor += Maths.GetPercentage(honor, destroyerPlayer.GetSkillPercentage("Cruelty"));
+                }
+                if (destroyerPlayer.SkillTree.greed > 1)
+                {
+                    credits += Maths.GetPercentage(credits, destroyerPlayer.GetSkillPercentage("Greed"));
+                }
+                if (destroyerPlayer.SkillTree.luck1 > 1)
+                {
+                    uridium += Maths.GetPercentage(uridium, destroyerPlayer.GetSkillPercentage("Luck"));
+                }
+                if (destroyerPlayer.SkillTree.tactics > 1)
+                {
+                    experience += Maths.GetPercentage(experience, destroyerPlayer.GetSkillPercentage("Tactics"));
+                }
+                //honor += Maths.GetPercentage(honor, destroyerPlayer.GetSkillPercentage("Cruelty"));
+                // credits += Maths.GetPercentage(credits, destroyerPlayer.GetSkillPercentage("Greed"));
+                // uridium += Maths.GetPercentage(uridium, destroyerPlayer.GetSkillPercentage("Luck"));
 
                 if (this is NpcGG NpcGG)
                 {
@@ -624,7 +642,7 @@ namespace Darkorbit.Game.Objects
 
                 if (reward)
                 {
-                    var beginnerLevel = 14;
+                    var beginnerLevel = 0;
 
                     IEnumerable<Player> groupMembers = destroyerPlayer.Group?.Members.Values.Where(x => x.AttackingOrUnderAttack());
 
@@ -638,8 +656,8 @@ namespace Darkorbit.Game.Objects
                             int beginnerBonus = 1;
 
                             if (facade.player.Level <= beginnerLevel || x2EventActive) beginnerBonus = 2;
-
                             BookReward(facade.player, (int)(Convert.ToDouble(credits) * p) * beginnerBonus, (int)(Convert.ToDouble(uridium) * p) * beginnerBonus, (int)(Convert.ToDouble(logfiles) * p) * beginnerBonus, (int)(Convert.ToDouble(experience) * p), (int)(Convert.ToDouble(honor) * p));
+                            experience += Maths.GetPercentage(experience, destroyerPlayer.GetSkillPercentage("Tactics"));
                         }
                     }
                     else if ((this is Npc n1 && n1.overallCausedDamage <= 0) || this is NpcGG n2)
@@ -672,12 +690,14 @@ namespace Darkorbit.Game.Objects
                                     if (!destroyerPlayer.activeMapId.ToString().StartsWith("99") && destroyerPlayer.Spacemap.Id != 81)
                                     {
                                         BookReward(member, credits * beginnerBonus, uridium * beginnerBonus, logfiles * beginnerBonus, experience, honor);
+                                        experience += Maths.GetPercentage(experience, destroyerPlayer.GetSkillPercentage("Tactics"));
                                     } else
                                     {
                                         //if groupmembers are on the same mapinstance
                                         if(destroyerPlayer.activeMapId == member.activeMapId)
                                         {
                                             BookReward(member, credits * beginnerBonus, uridium * beginnerBonus, logfiles * beginnerBonus, experience, honor);
+                                            experience += Maths.GetPercentage(experience, destroyerPlayer.GetSkillPercentage("Tactics"));
                                         } else
                                         {
                                             //if destroyer is same as group member, then book the full reward instead of splitting it for each member
@@ -690,6 +710,7 @@ namespace Darkorbit.Game.Objects
                                                 logfiles = logfiles * groupMembers.Count();
 
                                                 BookReward(member, credits * beginnerBonus, uridium * beginnerBonus, logfiles * beginnerBonus, experience, honor);
+                                                experience += Maths.GetPercentage(experience, destroyerPlayer.GetSkillPercentage("Tactics"));
                                             }
                                         }
                                     }
@@ -728,9 +749,9 @@ namespace Darkorbit.Game.Objects
 
                 if (this is Npc && !noRewards)
                 {
-                    if (destroyerPlayer.droneExp < 2800)
+                    if (destroyerPlayer.droneExp < 2600)
                     {
-                        destroyerPlayer.droneExp += Randoms.random.Next(1, 15);
+                        destroyerPlayer.droneExp += Randoms.random.Next(1, 5);
                     }
 
                     using (SqlDatabaseClient mySqlClient = SqlDatabaseManager.GetClient())
@@ -1028,17 +1049,7 @@ namespace Darkorbit.Game.Objects
                     {
                             if (destroyerPlayer.FactionId != otherPlayer.FactionId && destroyerPlayer.Spacemap.Id != 121 && destroyerPlayer.Spacemap.Id != 81)
                         {
-
-
                             destroyerPlayer.Destructions.fpd += 1;
-                            if (destroyerPlayer.droneExp < 3000)
-                            {
-                                destroyerPlayer.droneExp += 50;
-                            }
-
-
-
-
                             //using (SqlDatabaseClient mySqlClient = SqlDatabaseManager.GetClient())
                             //{
                             //    mySqlClient.ExecuteNonQuery($"INSERT INTO log_player_pvp_kills (userId, ship) VALUES ({destroyerPlayer.Id}, {Id})");

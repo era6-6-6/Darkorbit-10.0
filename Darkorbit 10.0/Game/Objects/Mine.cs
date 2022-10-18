@@ -25,8 +25,8 @@ namespace Darkorbit.Game.Objects
 
             Lance = Player.Settings.InGameSettings.selectedFormation == DroneManager.LANCE_FORMATION;
             //Detonation = (Player.SkillTree.detonation1 + Player.SkillTree.detonation2 == 5);
-            Pulse = Player.SkillTree.explosives == 5;
-            ExplodeRange += Maths.GetPercentage(ExplodeRange, Player.GetSkillPercentage("Explosives"));
+            //Pulse = Player.SkillTree.explosives == 5;
+           // ExplodeRange += Maths.GetPercentage(ExplodeRange, Player.GetSkillPercentage("Explosives"));
 
             activationTime = DateTime.Now;
 

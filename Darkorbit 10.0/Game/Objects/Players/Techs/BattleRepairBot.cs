@@ -30,57 +30,8 @@
         public DateTime cooldown = new DateTime();
         public void Send()
         {
-            if (cooldown.AddMilliseconds(TimeManager.BATTLE_REPAIR_BOT_DURATION + 60000) < DateTime.Now && Player.SkillTree.battlecd == 0 && Player.SkillTree.backupcd == 0 || Player.Storage.GodMode)
+            if (cooldown.AddMilliseconds(TimeManager.BATTLE_REPAIR_BOT_DURATION + TimeManager.BATTLE_REPAIR_BOT_COOLDOWN) < DateTime.Now || Player.Storage.GodMode)
             {
-                Player.LoadData();
-                Player.AddVisualModifier(VisualModifierCommand.BATTLE_REPAIR_BOT, 0, "", 0, true);
-                Player.SendCooldown(TechManager.TECH_BATTLE_REPAIR_BOT, TimeManager.BATTLE_REPAIR_BOT_DURATION, true);
-                Active = true;
-                cooldown = DateTime.Now;
-            }
-            else if (cooldown.AddMilliseconds(TimeManager.BATTLE_REPAIR_BOT_DURATION + 58000) < DateTime.Now && Player.SkillTree.battlecd == 1 && Player.SkillTree.backupcd == 0 || Player.Storage.GodMode)
-            {
-                Player.LoadData();
-                Player.AddVisualModifier(VisualModifierCommand.BATTLE_REPAIR_BOT, 0, "", 0, true);
-                Player.SendCooldown(TechManager.TECH_BATTLE_REPAIR_BOT, TimeManager.BATTLE_REPAIR_BOT_DURATION, true);
-                Active = true;
-                cooldown = DateTime.Now;
-            }
-            else if (cooldown.AddMilliseconds(TimeManager.BATTLE_REPAIR_BOT_DURATION + 56000) < DateTime.Now && Player.SkillTree.battlecd == 2 && Player.SkillTree.backupcd == 0 || Player.Storage.GodMode)
-            {
-                Player.LoadData();
-                Player.AddVisualModifier(VisualModifierCommand.BATTLE_REPAIR_BOT, 0, "", 0, true);
-                Player.SendCooldown(TechManager.TECH_BATTLE_REPAIR_BOT, TimeManager.BATTLE_REPAIR_BOT_DURATION, true);
-                Active = true;
-                cooldown = DateTime.Now;
-            }
-            else if (cooldown.AddMilliseconds(TimeManager.BATTLE_REPAIR_BOT_DURATION + 54000) < DateTime.Now && Player.SkillTree.battlecd == 3 && Player.SkillTree.backupcd == 0 || Player.Storage.GodMode)
-            {
-                Player.LoadData();
-                Player.AddVisualModifier(VisualModifierCommand.BATTLE_REPAIR_BOT, 0, "", 0, true);
-                Player.SendCooldown(TechManager.TECH_BATTLE_REPAIR_BOT, TimeManager.BATTLE_REPAIR_BOT_DURATION, true);
-                Active = true;
-                cooldown = DateTime.Now;
-            }
-            else if (cooldown.AddMilliseconds(TimeManager.BATTLE_REPAIR_BOT_DURATION + 52000) < DateTime.Now && Player.SkillTree.battlecd == 4 && Player.SkillTree.backupcd == 0 || Player.Storage.GodMode)
-            {
-                Player.LoadData();
-                Player.AddVisualModifier(VisualModifierCommand.BATTLE_REPAIR_BOT, 0, "", 0, true);
-                Player.SendCooldown(TechManager.TECH_BATTLE_REPAIR_BOT, TimeManager.BATTLE_REPAIR_BOT_DURATION, true);
-                Active = true;
-                cooldown = DateTime.Now;
-            }
-            else if (cooldown.AddMilliseconds(TimeManager.BATTLE_REPAIR_BOT_DURATION + 50000) < DateTime.Now && Player.SkillTree.battlecd == 5 && Player.SkillTree.backupcd == 0 || Player.Storage.GodMode)
-            {
-                Player.LoadData();
-                Player.AddVisualModifier(VisualModifierCommand.BATTLE_REPAIR_BOT, 0, "", 0, true);
-                Player.SendCooldown(TechManager.TECH_BATTLE_REPAIR_BOT, TimeManager.BATTLE_REPAIR_BOT_DURATION, true);
-                Active = true;
-                cooldown = DateTime.Now;
-            }
-            else if (cooldown.AddMilliseconds(TimeManager.BATTLE_REPAIR_BOT_DURATION + 60000) < DateTime.Now || Player.Storage.GodMode)
-            {
-                Player.LoadData();
                 Player.AddVisualModifier(VisualModifierCommand.BATTLE_REPAIR_BOT, 0, "", 0, true);
                 Player.SendCooldown(TechManager.TECH_BATTLE_REPAIR_BOT, TimeManager.BATTLE_REPAIR_BOT_DURATION, true);
                 Active = true;

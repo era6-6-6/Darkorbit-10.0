@@ -105,7 +105,7 @@ namespace Darkorbit.Game.Objects
                 rocketLauncherAttack();
             }
 
-            if (lastRocketTime.AddSeconds(2) < DateTime.Now)
+            if (lastRocketTime.AddSeconds(1) < DateTime.Now)
             {
                 rocketAttack();
             }

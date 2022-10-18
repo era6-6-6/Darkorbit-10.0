@@ -28,7 +28,7 @@ namespace Darkorbit.Game.Objects.Collectables
                 var uridium = Randoms.random.Next(20, 200);
                 var credits = Randoms.random.Next(100, 1500);
                 var uridium1 = Randoms.random.Next(125, 720);
-                // uridium += Maths.GetPercentage(uridium, player.GetSkillPercentage("Luck"));
+                uridium += Maths.GetPercentage(uridium, player.GetSkillPercentage("Luck"));
                 int ran = Randoms.random.Next(1, 100);
 
                 if (ran <= 22 && ran >= 0)

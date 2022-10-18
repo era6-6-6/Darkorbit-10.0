@@ -123,7 +123,7 @@ namespace Darkorbit.Game.Objects.Players.Managers
 
         public string GetDronesPacket(int exp)
         {
-            int level = 6;
+            int level = droneLevel(exp);
 
             var DronePacket = "";
             using (var mySqlClient = SqlDatabaseManager.GetClient())
@@ -270,11 +270,11 @@ namespace Darkorbit.Game.Objects.Players.Managers
             if (exp >= 500)
                 level = 2;
 
-            if (exp >= 1000)
+            if (exp >= 800)
                 level = 3;
-            if (exp >= 1500)
+            if (exp >= 1200)
                 level = 4;
-            if (exp >= 2000)
+            if (exp >= 1700)
                 level = 5;
             if (exp >= 2500)
                 level = 6;
