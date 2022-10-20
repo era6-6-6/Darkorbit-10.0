@@ -116,7 +116,7 @@ namespace Darkorbit.Game.Objects
                 byte[] laserRunCommand = AttackLaserRunCommand.write(Id, target.Id, 0, false, false);
                 if (target is Player p)
                 {
-                    laserRunCommand = AttackLaserRunCommand.write(Id, target.Id, 0, p.shieldMechanics, false);
+                    laserRunCommand = AttackLaserRunCommand.write(Id, target.Id, 0, p.shieldmechanics, false);
                 }
                 SendCommandToInRangePlayers(laserRunCommand);
 

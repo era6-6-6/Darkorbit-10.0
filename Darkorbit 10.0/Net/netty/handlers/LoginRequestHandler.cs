@@ -264,9 +264,9 @@ namespace Darkorbit.Net.netty.handlers
                 player.SendCommand(ContactsListUpdateCommand.write(new class_o3q(contacts), new class_g1a(true, true, true, true), new class_H4Q(false)));
                 */
 
-                var shieldEngineering = player.SkillTree.shieldEngineering;
+                var shieldEngineering = player.SkillTree.shieldengineering;
                 var shieldEngineeringVal = false;
-                if (shieldEngineering >= 8) shieldEngineeringVal = true;
+                if (shieldEngineering >= 5) shieldEngineeringVal = true;
                 player.SetShieldSkillActivated(shieldEngineeringVal);
 
                 if (isLogin)

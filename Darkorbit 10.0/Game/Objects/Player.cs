@@ -38,7 +38,7 @@ namespace Darkorbit.Game.Objects
         public string Title { get; set; }
 
         public bool bountyHunterAquired { get; set; }
-        public bool shieldMechanics { get; set; }
+        public bool shieldmechanics { get; set; }
 
         public int activeMapId;
 
@@ -315,6 +315,7 @@ namespace Darkorbit.Game.Objects
         }
 
         public DateTime lastHpRepairTime = new DateTime();
+
         private void CheckHitpointsRepair()
         {
             if (CurrentHitPoints >= MaxHitPoints || AttackingOrUnderAttack() || Moving)
@@ -355,55 +356,11 @@ namespace Darkorbit.Game.Objects
             {
                 return;
             }
-            if(SkillTree.heatseekingMissiles == 0)
-            {
-                var repairShield = MaxShieldPoints / 30;
-                CurrentShieldPoints += repairShield;
-                UpdateStatus();
+            int repairShield = MaxShieldPoints / 25;
+            CurrentShieldPoints += repairShield;
+            UpdateStatus();
 
-                lastShieldRepairTime = DateTime.Now;
-            }
-            else if (SkillTree.heatseekingMissiles == 1)
-            {
-                var repairShield = MaxShieldPoints / 28;
-                CurrentShieldPoints += repairShield;
-                UpdateStatus();
-
-                lastShieldRepairTime = DateTime.Now;
-            }
-            else if (SkillTree.heatseekingMissiles == 2)
-            {
-                var repairShield = MaxShieldPoints / 26;
-                CurrentShieldPoints += repairShield;
-                UpdateStatus();
-
-                lastShieldRepairTime = DateTime.Now;
-            }
-            else if (SkillTree.heatseekingMissiles == 3)
-            {
-                var repairShield = MaxShieldPoints / 24;
-                CurrentShieldPoints += repairShield;
-                UpdateStatus();
-
-                lastShieldRepairTime = DateTime.Now;
-            }
-            else if (SkillTree.heatseekingMissiles == 4)
-            {
-                var repairShield = MaxShieldPoints / 22;
-                CurrentShieldPoints += repairShield;
-                UpdateStatus();
-
-                lastShieldRepairTime = DateTime.Now;
-            }
-            else if (SkillTree.heatseekingMissiles == 5)
-            {
-                var repairShield = MaxShieldPoints / 20;
-                CurrentShieldPoints += repairShield;
-                UpdateStatus();
-
-                lastShieldRepairTime = DateTime.Now;
-            }
-
+            lastShieldRepairTime = DateTime.Now;
         }
 
         public DateTime lastRadiationDamageTime = new DateTime();
@@ -508,7 +465,7 @@ namespace Darkorbit.Game.Objects
                 if (LeonovEffect) value *= 2;
 
                 value += Maths.GetPercentage(value, BoosterManager.GetPercentage(BoostedAttributeType.MAXHP));
-                value += Maths.GetPercentage(value, GetSkillPercentage("Detonation"));
+                value += GetSkillPercentage("Ship Hull");
 
                 switch (SettingsManager.Player.Settings.InGameSettings.selectedFormation)
                 {
@@ -546,7 +503,7 @@ namespace Darkorbit.Game.Objects
         {
             get
             {
-                double value = Premium ? 1.5 : 1.5;
+                double value =  1;
 
                 switch (SettingsManager.Player.Settings.InGameSettings.selectedFormation)
                 {
@@ -684,7 +641,7 @@ namespace Darkorbit.Game.Objects
             get
             {
                 var value = 0.8;
-                switch (SkillTree.shieldMechanics)
+                switch (SkillTree.shieldmechanics)
                 {
                     case 1:
                         value += 0.02;
@@ -1179,7 +1136,7 @@ namespace Darkorbit.Game.Objects
                         if(character is Player)
                         {
                             Player tmp = (Player)character;
-                            shieldSkill = tmp.SkillTree.shieldEngineering == 8;
+                            shieldSkill = tmp.SkillTree.shieldengineering == 5;
                         }
 
                         SendCommand(ShipSelectionCommand.write(
@@ -1920,80 +1877,65 @@ namespace Darkorbit.Game.Objects
         public int GetSkillPercentage(string skillName)
         {
             int value = 0;
-
-            int detonation1 = SkillTree.detonation1;
-            int detonation2 = SkillTree.detonation2;
-            int shieldEngineering = SkillTree.shieldEngineering;
+            int shiphull1 = SkillTree.shiphull1;
+            int shiphull2 = SkillTree.shiphull2;
             int engineering = SkillTree.engineering;
-            int heatseekingMissiles = SkillTree.heatseekingMissiles;
-            int rocketFusion = SkillTree.rocketFusion;
-            int cruelty1 = SkillTree.cruelty1;
-            int cruelty2 = SkillTree.cruelty2;
-            int explosives = SkillTree.explosives;
-            int ishcd = SkillTree.ishcd;
-            int backupcd = SkillTree.backupcd;
-            int battlecd = SkillTree.battlecd;
-            int empcd = SkillTree.empcd;
+            int shieldengineering = SkillTree.shieldengineering;
+            int shieldmechanics = SkillTree.shieldmechanics;
+            int bountyhunter1 = SkillTree.bountyhunter1;
+            int bountyhunter2 = SkillTree.bountyhunter2;
+            int rocketfusion = SkillTree.rocketfusion;
+            int alienhunter = SkillTree.alienhunter;
+            int tactics = SkillTree.tactics;
             int luck1 = SkillTree.luck1;
             int luck2 = SkillTree.luck2;
-            int shieldMechanics = SkillTree.shieldMechanics;
-            int electroOptics = SkillTree.electroOptics;
+            int cruelty1 = SkillTree.cruelty1;
+            int cruelty2 = SkillTree.cruelty2;
+            int greed = SkillTree.greed;
 
-            if (skillName == "Shield Engineering")
+            if (skillName == "Ship Hull")
             {
-                value += shieldEngineering == 1 ? 4 : shieldEngineering == 2 ? 7 : shieldEngineering == 3 ? 11 : shieldEngineering == 4 ? 18 : shieldEngineering == 5 ? 25  : 0;
+                value += shiphull2 >= 1 ? (shiphull2 == 1 ? 15000 : shiphull2 == 2 ? 25000 : shiphull2 == 3 ? 50000 : 0) : (shiphull1 == 1 ? 5000 : shiphull1 == 2 ? 10000 : 0);
             }
             else if (skillName == "Engineering")
             {
                 value += engineering == 1 ? 5 : engineering == 2 ? 10 : engineering == 3 ? 15 : engineering == 4 ? 20 : engineering == 5 ? 30 : 0;
             }
-            else if (skillName == "Detonation")
+            else if (skillName == "Shield Engineering")
             {
-                value += detonation2 >= 1 ? (detonation2 == 1 ? 11 : detonation2 == 2 ? 14 : detonation2 == 3 ? 20 : 0) : (detonation1 == 1 ? 4 : detonation1 == 2 ? 8 : 0);
+                value += shieldengineering == 1 ? 4 : shieldengineering == 2 ? 8 : shieldengineering == 3 ? 12 : shieldengineering == 4 ? 18 : shieldengineering == 5 ? 25 : 0;
             }
-            else if (skillName == "Heat-seeking Missiles")
+            else if (skillName == "Shield Mechanics")
             {
-                value += heatseekingMissiles == 1 ? 1 : heatseekingMissiles == 2 ? 2 : heatseekingMissiles == 3 ? 4 : heatseekingMissiles == 4 ? 6 : heatseekingMissiles == 5 ? 10 : 0;
+                value += shieldmechanics == 1 ? 2 : shieldmechanics == 2 ? 4 : shieldmechanics == 3 ? 6 : shieldmechanics == 4 ? 8 : shieldmechanics == 5 ? 12 : 0;
+            }
+            else if (skillName == "Bounty Hunter")
+            {
+                value += bountyhunter2 >= 1 ? (bountyhunter2 == 1 ? 6 : bountyhunter2 == 2 ? 8 : bountyhunter2 == 3 ? 12 : 0) : (bountyhunter1 == 1 ? 2 : bountyhunter1 == 2 ? 4 : 0);
             }
             else if (skillName == "Rocket Fusion")
             {
-                value += rocketFusion == 1 ? 2 : rocketFusion == 2 ? 4 : rocketFusion == 3 ? 6 : rocketFusion == 4 ? 8 : rocketFusion == 5 ? 15 : 0;
+                value += rocketfusion == 1 ? 2 : rocketfusion == 2 ? 4 : rocketfusion == 3 ? 6 : rocketfusion == 4 ? 8 : rocketfusion == 5 ? 15 : 0;
             }
-            else if (skillName == "Cruelty")
+            else if (skillName == "Alien Hunter")
             {
-                value += cruelty2 >= 1 ? (cruelty2 == 1 ? 12 : cruelty2 == 2 ? 18 : cruelty2 == 3 ? 25 : 0) : (cruelty1 == 1 ? 4 : cruelty1 == 2 ? 8 : 0);
+                value += alienhunter == 1 ? 2 : alienhunter == 2 ? 4 : alienhunter == 3 ? 6 : alienhunter == 4 ? 8 : alienhunter == 5 ? 12 : 0;
             }
-            else if (skillName == "Explosives")
+            else if (skillName == "Tactics")
             {
-                value += explosives == 1 ? 16 : explosives == 2 ? 22 : explosives == 3 ? 28 : explosives == 4 ? 34 : explosives == 5 ? 40 : 0;
+                value += tactics == 1 ? 2 : tactics == 2 ? 4 : tactics == 3 ? 6 : tactics == 4 ? 8 : tactics == 5 ? 12 : 0;
             }
             else if (skillName == "Luck")
             {
                 value += luck2 >= 1 ? (luck2 == 1 ? 6 : luck2 == 2 ? 8 : luck2 == 3 ? 12 : 0) : (luck1 == 1 ? 2 : luck1 == 2 ? 4 : 0);
             }
-            else if (skillName == "Shield Mechanics")
+            else if (skillName == "Cruelty")
             {
-                value += shieldMechanics >= 1 ? (shieldMechanics == 1 ? 6 : shieldMechanics == 2 ? 8 : shieldMechanics == 3 ? 12 : 0) : (shieldMechanics == 1 ? 2 : shieldMechanics == 2 ? 4 : 0);
+                value += cruelty2 >= 1 ? (cruelty2 == 1 ? 12 : cruelty2 == 2 ? 18 : cruelty2 == 3 ? 25 : 0) : (cruelty1 == 1 ? 4 : cruelty1 == 2 ? 8 : 0);
             }
-            else if (skillName == "Electro-optics")
+            else if (skillName == "Greed")
             {
-                value += electroOptics >= 1 ? (electroOptics == 1 ? 15 : electroOptics == 2 ? 20 : electroOptics == 3 ? 25 : 0) : (electroOptics == 1 ? 5 : electroOptics == 2 ? 10 : 0);
-            }
-            else if (skillName == "Instant-ShieldCD")
-            {
-                value += ishcd == 1 ? 1  : 0;
-            }
-            else if (skillName == "EMP_05CD")
-            {
-                value += empcd == 1 ? 1 : 0;
-            }
-            else if (skillName == "Battle-CD")
-            {
-                value += battlecd == 1 ? 1 : battlecd == 2 ? 2 : battlecd == 3 ? 3 : battlecd == 4 ? 4 : battlecd == 5 ? 5 : 0;
-            }
-            else if (skillName == "Backup-SHD_CD")
-            {
-                value += backupcd == 1 ? 1 : backupcd == 2 ? 2 : backupcd == 3 ? 3 : backupcd == 4 ? 4 : backupcd == 5 ? 5 : 0;
+                value += greed == 1 ? 4 : greed == 2 ? 8 : greed == 3 ? 12 : greed == 4 ? 15 : greed == 5 ? 25 : 0;
             }
 
 

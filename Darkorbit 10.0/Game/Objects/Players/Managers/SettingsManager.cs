@@ -35,23 +35,21 @@ namespace Darkorbit.Game.Objects.Players.Managers
 
     public class SkillTreeBase
     {
+        public int shiphull1 = 0;
+        public int shiphull2 = 0;
         public int engineering = 0;
-        public int shieldEngineering = 0;
-        public int detonation1 = 0;
-        public int detonation2 = 0;
-        public int heatseekingMissiles = 0;
-        public int ishcd = 0;
-        public int backupcd = 0;
-        public int battlecd = 0;
-        public int empcd = 0;
-        public int rocketFusion = 0;
-        public int cruelty1 = 0;
-        public int cruelty2 = 0;
-        public int explosives = 0;
+        public int shieldengineering = 0;
+        public int shieldmechanics = 0;
+        public int bountyhunter1 = 0;
+        public int bountyhunter2 = 0;
+        public int rocketfusion = 0;
+        public int alienhunter = 0;
+        public int tactics = 0;
         public int luck1 = 0;
         public int luck2 = 0;
-        public int shieldMechanics = 0;
-        public int electroOptics = 0;
+        public int cruelty1 = 0;
+        public int cruelty2 = 0;
+        public int greed = 0;
     }
 
     public class ConfigsBase

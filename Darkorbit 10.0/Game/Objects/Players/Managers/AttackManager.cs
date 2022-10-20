@@ -44,7 +44,7 @@ namespace Darkorbit.Game.Objects.Players.Managers
                 {
 
                     scatter = true;
-                    mult = Player.lf4 * (Player.lf4Damage + 300);
+                    mult = Player.lf4 * (Player.lf4Damage);
                     lastScatter = DateTime.Now;
 
 
@@ -168,30 +168,6 @@ namespace Darkorbit.Game.Objects.Players.Managers
                         {
                             damage -= Maths.GetPercentage(damage, 25);
                         }
-                        if (Player.Settings.InGameSettings.selectedLaser == AmmunitionManager.SAB_50 && target is Player && Player.SkillTree.electroOptics == 0)
-                        {
-                            damage -= Maths.GetPercentage(damage, 5);
-                        }
-                        else if (Player.Settings.InGameSettings.selectedLaser == AmmunitionManager.SAB_50 && target is Player && Player.SkillTree.electroOptics == 1)
-                        {
-                            damage -= Maths.GetPercentage(damage, 4);
-                        }
-                        else if (Player.Settings.InGameSettings.selectedLaser == AmmunitionManager.SAB_50 && target is Player && Player.SkillTree.electroOptics == 2)
-                        {
-                            damage -= Maths.GetPercentage(damage, 3);
-                        }
-                        else if (Player.Settings.InGameSettings.selectedLaser == AmmunitionManager.SAB_50 && target is Player && Player.SkillTree.electroOptics == 3)
-                        {
-                            damage -= Maths.GetPercentage(damage, 2);
-                        }
-                        else if (Player.Settings.InGameSettings.selectedLaser == AmmunitionManager.SAB_50 && target is Player && Player.SkillTree.electroOptics == 4)
-                        {
-                            damage -= Maths.GetPercentage(damage, 1);
-                        }
-                        else if (Player.Settings.InGameSettings.selectedLaser == AmmunitionManager.SAB_50 && target is Player && Player.SkillTree.electroOptics == 5)
-                        {
-                            damage -= Maths.GetPercentage(damage, 0);
-                        }
                         if (Player.Settings.InGameSettings.selectedLaser == AmmunitionManager.RSB_75 && target is Player)
                         {
                             damage += Maths.GetPercentage(damage, 5);
@@ -267,12 +243,11 @@ namespace Darkorbit.Game.Objects.Players.Managers
 
         public async void RocketAttack()
         {
-            var enemy = Player.SelectedCharacter;
-            if (enemy == null) return;
+                var enemy = Player.SelectedCharacter;
+                if (enemy == null) return;
 
-            if (Player.Settings.InGameSettings.selectedRocket != AmmunitionManager.WIZ_X)
                 if (!Player.TargetDefinition(enemy, true, true)) return;
-            Player.CpuManager.DisableCloak();
+                    Player.CpuManager.DisableCloak();
 
             if (Player.AmmunitionManager.GetAmmo(Player.Settings.InGameSettings.selectedRocket) < 1)
             {
@@ -328,10 +303,11 @@ namespace Darkorbit.Game.Objects.Players.Managers
                     else return;
                     break;
                 default:
-                    if (lastRocketAttack.AddSeconds(Player.RocketSpeed) < DateTime.Now)
+                    if (lastRocketAttack.AddSeconds(1) < DateTime.Now)
                     {
-                        Player.SendCooldown(AmmunitionManager.R_310, Player.Premium ? 1250 : 1250);
                         lastRocketAttack = DateTime.Now;
+                        Player.SendCooldown(AmmunitionManager.R_310, 850);
+
                     }
                     else return;
                     break;
@@ -342,7 +318,7 @@ namespace Darkorbit.Game.Objects.Players.Managers
 
             /* Player.Skylab.ReduceRocketOre(1); */
 
-            var rocketRunPacket = $"0|v|{Player.Id}|{enemy.Id}|H|{Player.SelectedRocket}|{(Player.SkillTree.rocketFusion == 5 ? 1 : 0)}|{(Player.Storage.PrecisionTargeter || Player.SkillTree.heatseekingMissiles == 5 ? 1 : 0)}";
+            var rocketRunPacket = $"0|v|{Player.Id}|{enemy.Id}|H|{Player.SelectedRocket}|{(Player.SkillTree.rocketfusion == 5 ? 1 : 0)}|{(Player.Storage.PrecisionTargeter)}";
             Player.SendPacket(rocketRunPacket);
             Player.SendPacketToInRangePlayers(rocketRunPacket);
 
@@ -489,9 +465,9 @@ namespace Darkorbit.Game.Objects.Players.Managers
         public DateTime EmpCooldown = new DateTime();
         public void EMP()
         {
-            if ((EmpCooldown.AddMilliseconds(35000) < DateTime.Now && Player.AmmunitionManager.GetAmmo("ammunition_specialammo_emp-01") > 0) && Player.SkillTree.empcd == 0 && Player.SkillTree.ishcd == 0 || Player.Storage.GodMode)
+            if ((EmpCooldown.AddMilliseconds(TimeManager.EMP_COOLDOWN) < DateTime.Now && Player.AmmunitionManager.GetAmmo("ammunition_specialammo_emp-01") > 0) || Player.Storage.GodMode)
             {
-                Player.SendCooldown(AmmunitionManager.EMP_01, 35000);
+                Player.SendCooldown(AmmunitionManager.EMP_01, TimeManager.EMP_COOLDOWN);
                 EmpCooldown = DateTime.Now;
 
                 Player.Storage.DeactiveR_RIC3();
@@ -526,86 +502,6 @@ namespace Darkorbit.Game.Objects.Players.Managers
 
                         //if (otherPlayer.FactionId != Player.FactionId)
                             otherPlayer.CpuManager.DisableCloak();
-                    }
-                }
-            }
-            else if ((EmpCooldown.AddMilliseconds(30000) < DateTime.Now && Player.AmmunitionManager.GetAmmo("ammunition_specialammo_emp-01") > 0) && Player.SkillTree.empcd == 1 && Player.SkillTree.ishcd == 0 || Player.Storage.GodMode)
-            {
-                Player.SendCooldown(AmmunitionManager.EMP_01, 30000);
-                EmpCooldown = DateTime.Now;
-
-                Player.Storage.DeactiveR_RIC3();
-                Player.Storage.DeactiveDCR_250();
-                Player.Storage.DeactiveSLM_01();
-                Player.Storage.DeactiveDrawFireEffect();
-
-                string empPacket = "0|n|EMP|" + Player.Id;
-                Player.AmmunitionManager.UseAmmo("ammunition_specialammo_emp-01", 1);
-                Player.SendPacket(empPacket);
-                Player.SendPacketToInRangePlayers(empPacket);
-
-
-                foreach (var otherPlayers in Player.Spacemap.Characters.Values)
-                {
-                    if (otherPlayers is Player otherPlayer && otherPlayer.Selected == Player)
-                        otherPlayer.Deselection(true);
-
-                    if (otherPlayers is Npc npc && npc.Selected == Player)
-                    {
-                        npc.UnderEmp = true;
-                        npc.startemp = DateTime.Now;
-                        npc.EmpFrom = Player;
-                    }
-                }
-
-                foreach (var otherPlayers in Player.InRangeCharacters.Values)
-                {
-                    if (otherPlayers is Player otherPlayer)
-                    {
-                        if (otherPlayer.Position.DistanceTo(Player.Position) > 700) continue;
-
-                        //if (otherPlayer.FactionId != Player.FactionId)
-                        otherPlayer.CpuManager.DisableCloak();
-                    }
-                }
-            }
-            else if ((EmpCooldown.AddMilliseconds(30000) < DateTime.Now && Player.AmmunitionManager.GetAmmo("ammunition_specialammo_emp-01") > 0) || Player.Storage.GodMode)
-            {
-                Player.SendCooldown(AmmunitionManager.EMP_01, 35000);
-                EmpCooldown = DateTime.Now;
-
-                Player.Storage.DeactiveR_RIC3();
-                Player.Storage.DeactiveDCR_250();
-                Player.Storage.DeactiveSLM_01();
-                Player.Storage.DeactiveDrawFireEffect();
-
-                string empPacket = "0|n|EMP|" + Player.Id;
-                Player.AmmunitionManager.UseAmmo("ammunition_specialammo_emp-01", 1);
-                Player.SendPacket(empPacket);
-                Player.SendPacketToInRangePlayers(empPacket);
-
-
-                foreach (var otherPlayers in Player.Spacemap.Characters.Values)
-                {
-                    if (otherPlayers is Player otherPlayer && otherPlayer.Selected == Player)
-                        otherPlayer.Deselection(true);
-
-                    if (otherPlayers is Npc npc && npc.Selected == Player)
-                    {
-                        npc.UnderEmp = true;
-                        npc.startemp = DateTime.Now;
-                        npc.EmpFrom = Player;
-                    }
-                }
-
-                foreach (var otherPlayers in Player.InRangeCharacters.Values)
-                {
-                    if (otherPlayers is Player otherPlayer)
-                    {
-                        if (otherPlayer.Position.DistanceTo(Player.Position) > 700) continue;
-
-                        //if (otherPlayer.FactionId != Player.FactionId)
-                        otherPlayer.CpuManager.DisableCloak();
                     }
                 }
             }
@@ -648,37 +544,16 @@ namespace Darkorbit.Game.Objects.Players.Managers
         public DateTime IshCooldown = new DateTime();
         public void ISH()
         {
-            if ((IshCooldown.AddMilliseconds(30000) < DateTime.Now && Player.AmmunitionManager.GetAmmo("equipment_extra_cpu_ish-01") > 0) && Player.SkillTree.ishcd == 0 && Player.SkillTree.empcd == 0 || Player.Storage.GodMode)
+            if ((IshCooldown.AddMilliseconds(TimeManager.ISH_COOLDOWN) < DateTime.Now && Player.AmmunitionManager.GetAmmo("equipment_extra_cpu_ish-01") > 0) || Player.Storage.GodMode)
             {
                 IshCooldown = DateTime.Now;
-                Player.SendCooldown(AmmunitionManager.ISH_01, 30000);
+                Player.SendCooldown(AmmunitionManager.ISH_01, TimeManager.ISH_COOLDOWN);
 
                 var ishPacket = "0|n|ISH|" + Player.Id;
                 Player.AmmunitionManager.UseAmmo("equipment_extra_cpu_ish-01", 1);
                 Player.SendPacket(ishPacket);
                 Player.SendPacketToInRangePlayers(ishPacket);
             }
-            else if ((IshCooldown.AddMilliseconds(27000) < DateTime.Now && Player.AmmunitionManager.GetAmmo("equipment_extra_cpu_ish-01") > 0) && Player.SkillTree.ishcd == 1 && Player.SkillTree.empcd == 0 || Player.Storage.GodMode)
-            {
-                IshCooldown = DateTime.Now;
-                Player.SendCooldown(AmmunitionManager.ISH_01, 27000);
-
-                var ishPacket = "0|n|ISH|" + Player.Id;
-                Player.AmmunitionManager.UseAmmo("equipment_extra_cpu_ish-01", 1);
-                Player.SendPacket(ishPacket);
-                Player.SendPacketToInRangePlayers(ishPacket);
-            }
-            else if ((IshCooldown.AddMilliseconds(30000) < DateTime.Now && Player.AmmunitionManager.GetAmmo("equipment_extra_cpu_ish-01") > 0) || Player.Storage.GodMode)
-            {
-                IshCooldown = DateTime.Now;
-                Player.SendCooldown(AmmunitionManager.ISH_01, 30000);
-
-                var ishPacket = "0|n|ISH|" + Player.Id;
-                Player.AmmunitionManager.UseAmmo("equipment_extra_cpu_ish-01", 1);
-                Player.SendPacket(ishPacket);
-                Player.SendPacketToInRangePlayers(ishPacket);
-            }
-
         }
 
         public void ECI()
@@ -715,7 +590,7 @@ namespace Darkorbit.Game.Objects.Players.Managers
             switch (Randoms.random.Next(0, 0))
             {
                 case 0:
-                    value = (int)(baseDmg * 1.10);
+                    value = (int)(baseDmg);
                     break;
                 case 1:
                     value = (int)(baseDmg * 0.98);
@@ -805,12 +680,12 @@ namespace Darkorbit.Game.Objects.Players.Managers
             }*/
             if (target is Player)
             {
-                damage += Maths.GetPercentage(damage, attacker.GetSkillPercentage("Luck"));
+                damage += Maths.GetPercentage(damage, attacker.GetSkillPercentage("Bounty Hunter"));
             }
 
             if (target is Npc npcinfo2 || target is NpcGG npcinfo3)
             {
-                damage += Maths.GetPercentage(damage, attacker.GetSkillPercentage("Explosives"));
+                damage += Maths.GetPercentage(damage, attacker.GetSkillPercentage("Alien Hunter"));
             }
 
             if (damageType == DamageType.LASER && Player.Settings.InGameSettings.selectedLaser == AmmunitionManager.SAB_50)
@@ -930,32 +805,32 @@ namespace Darkorbit.Game.Objects.Players.Managers
 
                 target.AddDamage(attacker, damage);
 
-                bool shieldMechanics = false;
+                bool shieldmechanics = false;
 
                 if (target is Player p)
                 {
-                    if (p.shieldMechanics) shieldMechanics = true;
+                    if (p.shieldmechanics) shieldmechanics = true;
                 }
 
-                var laserRunCommand = AttackLaserRunCommand.write(Player.Id, target.Id, GetSelectedLaser(), shieldMechanics, Player.bountyHunterAquired);
+                var laserRunCommand = AttackLaserRunCommand.write(Player.Id, target.Id, GetSelectedLaser(), shieldmechanics, Player.bountyHunterAquired);
                 if (Player.lf4lasers > 0 && full)
                 {
-                    laserRunCommand = AttackLaserRunCommand.write(Player.Id, target.Id, mult != 0 ? 0 : GetSelectedLaser(), shieldMechanics, Player.bountyHunterAquired);
+                    laserRunCommand = AttackLaserRunCommand.write(Player.Id, target.Id, mult != 0 ? 0 : GetSelectedLaser(), shieldmechanics, Player.bountyHunterAquired);
                 }
                 else if (Player.lf4lasers / 2 > 0 && !full)
                 {
-                    laserRunCommand = AttackLaserRunCommand.write(Player.Id, target.Id, mult != 0 ? 1 : GetSelectedLaser(), shieldMechanics, Player.bountyHunterAquired);
+                    laserRunCommand = AttackLaserRunCommand.write(Player.Id, target.Id, mult != 0 ? 1 : GetSelectedLaser(), shieldmechanics, Player.bountyHunterAquired);
                 }
                 if (Player.lf5lasers / 2 > 0 && fulllf5)
                 {
-                    laserRunCommand = AttackLaserRunCommand.write(Player.Id, target.Id, GetSelectedLaser(), shieldMechanics, Player.bountyHunterAquired);
+                    laserRunCommand = AttackLaserRunCommand.write(Player.Id, target.Id, GetSelectedLaser(), shieldmechanics, Player.bountyHunterAquired);
                     if (proc)
                     {
-                        laserRunCommand = AttackLaserRunCommand.write(Player.Id, target.Id, 5, shieldMechanics, Player.bountyHunterAquired);
+                        laserRunCommand = AttackLaserRunCommand.write(Player.Id, target.Id, 5, shieldmechanics, Player.bountyHunterAquired);
                     }
                     if (Player.Settings.InGameSettings.selectedLaser == AmmunitionManager.RSB_75)
                     {
-                        laserRunCommand = AttackLaserRunCommand.write(Player.Id, target.Id, GetSelectedLaser(), shieldMechanics, Player.bountyHunterAquired);
+                        laserRunCommand = AttackLaserRunCommand.write(Player.Id, target.Id, GetSelectedLaser(), shieldmechanics, Player.bountyHunterAquired);
                     }
                 }
 
@@ -1276,13 +1151,13 @@ namespace Darkorbit.Game.Objects.Players.Managers
                 switch (Player.Settings.InGameSettings.selectedRocket)
                 {
                     case AmmunitionManager.R_310:
-                        return 700; //1000
+                        return 1000; //1000
                     case AmmunitionManager.PLT_2026:
-                        return 1000; //1500
+                        return 2000; //1500
                     case AmmunitionManager.PLT_2021:
-                        return 1500; //2500
+                        return 4000; //2500
                     case AmmunitionManager.PLT_3030:
-                        return 2500; //3500
+                        return 6000; //3500
                     default:
                         return 0;
                 }
@@ -1294,15 +1169,15 @@ namespace Darkorbit.Game.Objects.Players.Managers
             switch (Player.Settings.InGameSettings.selectedRocketLauncher)
             {
                 case AmmunitionManager.ECO_10:
-                    return 2000;
+                    return 1500;
                 case AmmunitionManager.HSTRM_01:
-                    return 4000;
+                    return 2000;
                 case AmmunitionManager.UBR_100:
-                    return 3200;
+                    return 2000;
                 case AmmunitionManager.SAR_01:
-                    return 3200;
+                    return 1500;
                 case AmmunitionManager.SAR_02:
-                    return 3300;
+                    return 3000;
                 default:
                     return 0;
             }
