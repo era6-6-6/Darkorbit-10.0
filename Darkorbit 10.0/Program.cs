@@ -80,7 +80,7 @@ namespace Darkorbit
                     Console.ForegroundColor = ConsoleColor.White;
                     Console.Clear();
 
-                    Out.WriteLine("Project FinalOrbit by Techno, Mostwanted & Era", "FinalOrbit - Emulator", ConsoleColor.DarkRed);
+                    Out.WriteLine("Project Darkorbit 10.0 by yusuf rewrited to new net version by era","", ConsoleColor.DarkRed);
 
                     return true;
                 }

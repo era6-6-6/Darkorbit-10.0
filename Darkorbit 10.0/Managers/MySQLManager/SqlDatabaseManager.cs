@@ -11,10 +11,10 @@ namespace Darkorbit.Managers.MySQLManager
     {
 
         public static string SERVER = "127.0.0.1";
-        public static string UID = "ancient";
-        public static string PWD = "XcSshE5fTGuBtJ9f";
-        public static string DB = "ancient";
-        public static uint PORT = 3309;
+        public static string UID = "root";
+        public static string PWD = "";
+        public static string DB = "server";
+        public static uint PORT = 3306;
         public static bool Initialized = false;
 
 
